@@ -14,7 +14,9 @@
       />
     </div>
     <div class="card-detail-foot">
-      {{ card.date }}
+      <span class="text-gray">
+        {{ card.date }}
+      </span>
     </div>
   </div>
 </template>
@@ -49,6 +51,10 @@ export default {
     vertical-align top
     margin-left 20px
   .card-detail-body
-    margin-bottom 20px
+    margin-bottom 40px
+  .card-detail-foot
+    text-align right
+    font-size 14px
+
 
 </style>

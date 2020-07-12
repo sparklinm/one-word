@@ -24,15 +24,24 @@
           />
         </div>
         <div class="comment-foot">
-          {{ comment.date }}
+          <span class="text-gray">
+            {{ comment.date }}
+          </span>
         </div>
       </div>
     </div>
+    <write-commpent />
+    <div />
   </div>
 </template>
 
 <script>
+import WriteCommpent from './WriteCommpent'
+
 export default {
+  components: {
+    WriteCommpent
+  },
   props: {
     comments: {
       type: Array,
@@ -41,7 +50,7 @@ export default {
           {
             id: 0,
             nickName: '酒中客',
-            head: require('../assets/head.jpg'),
+            head: require('@/assets/head.jpg'),
             content: '加油',
             date: '12:56'
           }
@@ -59,7 +68,9 @@ export default {
 
 <style lang="stylus">
 .comments
-  margin-top 20px
+  margin-top 100px
+  padding 30px
+  border 1px solid #e6e6e6
   .comments-head
     margin-bottom 15px
   .comment-head

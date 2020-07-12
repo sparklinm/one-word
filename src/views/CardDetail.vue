@@ -7,7 +7,7 @@
 
 <script>
 import CardDetail from '@/components/card/CardDetail'
-import Comments from '@/components/Comments'
+import Comments from '@/components/comment/Comments'
 
 export default {
   components: {

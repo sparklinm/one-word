@@ -73,7 +73,7 @@ module.exports = {
         allow: ['warn', 'error', 'trace']
       }
     ],
-    'no-unused-vars': 'error',
+    'no-unused-vars': 'warn',
     'no-multi-spaces': 'error',
     'valid-jsdoc': 'warn',
     eqeqeq: 'error',

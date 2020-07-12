@@ -77,7 +77,6 @@ export default {
     hanldeSuccess () {
     },
     confirm () {
-      console.log(this.$refs.upload.uploadFiles)
       const imgs = this.$refs.upload.uploadFiles.map(item => item.url)
       const word = {
         imgs,
@@ -86,7 +85,6 @@ export default {
       }
 
       console.log(word)
-
     }
   }
 }
