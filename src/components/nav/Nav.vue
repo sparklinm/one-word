@@ -72,10 +72,12 @@ export default {
     text-align center
   .user-head
     margin-bottom 10px
-
   .el-menu
     background transparent
+    border-right: none;
   .el-menu-item
     padding 0 30px
-
+  .el-menu-item.is-active
+    background black !important
+    border-left 4px solid #ffaf1c
 </style>

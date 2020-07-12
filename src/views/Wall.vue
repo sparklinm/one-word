@@ -1,5 +1,10 @@
 <template>
   <main class="main">
+    <Icon
+      name="pen"
+      class="icon-creat"
+      @click="goCreatPage"
+    />
     <Card
       v-for="(card,index) in cards"
       :key="index"
@@ -11,7 +16,7 @@
 </template>
 
 <script>
-import Card from '@/components/Card'
+import Card from '@/components/card/Card'
 
 export default {
   components: {
@@ -51,13 +56,28 @@ export default {
           path: `/card/${id}`
         })
         .catch((err) => err)
+    },
+    goCreatPage () {
+      this.$router
+        .push({
+          path: '/creat'
+        })
+        .catch((err) => err)
     }
   }
 }
 </script>
 
 <style lang="stylus">
-.wall-card
-  margin-right 30px
-  margin-bottom 30px
+.main
+  .wall-card
+    margin-right 30px
+    margin-bottom 30px
+  .icon-creat
+    position fixed
+    top 100px
+    right 100px
+    font-size 40px
+    color #0a618d
+    cursor pointer
 </style>

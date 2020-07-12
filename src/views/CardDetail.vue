@@ -1,12 +1,12 @@
 <template>
   <main class="main">
-    <CardDetail />
+    <card-detail />
     <Comments />
   </main>
 </template>
 
 <script>
-import CardDetail from '@/components/CardDetail'
+import CardDetail from '@/components/card/CardDetail'
 import Comments from '@/components/Comments'
 
 export default {

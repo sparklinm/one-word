@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <Banner />
     <Nav />
-    <router-view />
+    <div class="container">
+      <Banner />
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
-import Nav from '@/components/Nav'
+import Nav from '@/components/nav/Nav'
 import Banner from '@/components/Banner'
 
 export default {
@@ -23,6 +25,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+.container
+  padding-left 220px
 
+</style>
+
+<style>
+.aa {
+  color: #d3d391;
+  background: transparent;
+}
 </style>
