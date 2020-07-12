@@ -9,14 +9,16 @@
     </div>
     <div class="card-body">
       {{ card.content }}
-      <el-image
-        v-if="card.cover"
-        :src="card.cover"
-        class="card-cover"
-        lazy
-        :preview-src-list="[card.content]"
-        alt=""
-      />
+      <div>
+        <el-image
+          v-if="card.cover"
+          :src="card.cover"
+          class="card-cover"
+          lazy
+          :preview-src-list="[card.content]"
+          alt=""
+        />
+      </div>
     </div>
     <div class="card-footer">
       <el-badge
