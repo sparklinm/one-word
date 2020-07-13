@@ -8,7 +8,6 @@
     <el-tabs
       v-model="activeName"
       class="tabs"
-      @tab-click="handleClick"
     >
       <el-tab-pane
         label="小感悟"

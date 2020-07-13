@@ -16,7 +16,7 @@
           class="card-cover"
           lazy
           :preview-src-list="[card.content]"
-          alt=""
+          alt
         />
       </div>
     </div>
@@ -51,11 +51,11 @@ export default {
 <style lang="stylus">
 .card
   display inline-block
-  border-radius: 30px
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
-  border: 1px solid #d7dae2
+  border-radius 30px
+  box-shadow 0 2px 12px 0 rgba(0, 0, 0, 0.1)
+  border 1px solid #d7dae2
   background white
-  padding: 20px
+  padding 20px
   min-width 200px
   max-width 300px
   .card-head

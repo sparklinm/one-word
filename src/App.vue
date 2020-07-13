@@ -3,7 +3,7 @@
     <Nav />
     <div class="container">
       <Banner />
-      <router-view />
+      <router-view class="main" />
     </div>
   </div>
 </template>
@@ -33,7 +33,7 @@ export default {
 
 <style>
 .aa {
-  color: #d4e7fa;
+  color: #696969;
   background: transparent;
 }
 </style>
