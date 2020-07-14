@@ -6,7 +6,7 @@
     <div class="comments-list">
       <div
         v-for="comment in comments"
-        :key="comment.id"
+        :key="comment.date"
         class="comment-item"
       >
         <div class="comment-head">
@@ -25,12 +25,12 @@
         </div>
         <div class="comment-foot">
           <span class="text-gray">
-            {{ comment.date }}
+            {{ fromNow(comment.date) }}
           </span>
         </div>
       </div>
     </div>
-    <write-commpent />
+    <write-commpent @add="$emit('add', $event)" />
     <div />
   </div>
 </template>
@@ -49,10 +49,10 @@ export default {
         [
           {
             id: 0,
-            nickName: '酒中客',
-            head: require('@/assets/head.jpg'),
-            content: '加油',
-            date: '12:56'
+            nickName: '',
+            head: '',
+            content: '',
+            date: ''
           }
         ]
       )
@@ -62,7 +62,11 @@ export default {
     return {}
   },
   computed: {},
-  methods: {}
+  methods: {
+    fromNow (date) {
+      return dayjs(date).fromNow()
+    }
+  }
 }
 </script>
 

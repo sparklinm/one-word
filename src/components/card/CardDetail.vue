@@ -12,33 +12,56 @@
         class="content"
         v-html="card.content"
       />
+      <div
+        class="imgs cm-img-list"
+      >
+        <div
+          v-for="img in card.imgs"
+          :key="img"
+          class="img-item-contianer cm-img-list_item-area"
+        >
+          <el-image
+            :src="img"
+            class="img-item cm-img-list_item-container"
+            fit="cover"
+            lazy
+            :preview-src-list="[img]"
+          />
+        </div>
+      </div>
     </div>
     <div class="card-detail-foot">
       <span class="text-gray">
-        {{ card.date }}
+        {{ time }}
       </span>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   props: {
     card: {
       type: Object,
       default: () => ({
         id: 0,
-        nickName: '想不想喝奶茶',
-        head: require('@/assets/head.jpg'),
-        content: '多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-        date: '19:23'
+        nickName: '',
+        head: '',
+        content: '',
+        imgs: [],
+        date: ''
       })
     }
   },
   data () {
     return {}
   },
-  computed: {},
+  computed: {
+    time () {
+      return dayjs(this.card.date).fromNow()
+    }
+  },
   methods: {}
 }
 </script>
@@ -52,6 +75,10 @@ export default {
     margin-left 20px
   .card-detail-body
     margin-bottom 40px
+  .content
+    white-space pre-wrap
+  .imgs
+    margin-top 50px
   .card-detail-foot
     text-align right
     font-size 14px

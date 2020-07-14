@@ -6,8 +6,8 @@ body
   background $themeColor
 
 .main
-  width 70%
-  margin 10px auto 0
+  width 60%
+  margin-left: 15%
 
 .text-gray
   color #505050
@@ -23,6 +23,8 @@ body
 .chart-room
   background $chartBackground
   box-shadow $chartBoxShadow
+  .chart-room-inline
+    border-right 1px solid $chartEditorBorder
   .room-name
     background $chartEditotHead
     color $chartEditotHeadFont
@@ -30,5 +32,32 @@ body
     border-top 1px solid $chartEditorBorder
   .item-content
     border 1px solid #ddd
-    color: #3b3b3b
+    color #3b3b3b
 
+
+// 图片自适应排列
+.cm-img-list
+  margin 0 -12px
+
+.cm-img-list_item-area
+  display inline-block
+  width 33.3%
+  text-align center
+  box-sizing border-box
+  padding-bottom 30%
+  height 0
+  position relative
+  margin 0
+
+.cm-img-list_item-container
+  position absolute
+  height 100%
+  width 100%
+  padding 0 12px
+  left 0
+  border-radius 10px
+  box-sizing border-box
+
+.cm-img-list_item
+  height 100%
+  width 100%

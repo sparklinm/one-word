@@ -4,3 +4,11 @@ tag(color = black, background-color = #ffe77c)
   display inline-block
   padding 1px 6px
   border-radius 8px
+
+vendor(prop, args)
+  -webkit-{prop} args
+  -moz-{prop} args
+  {prop} args
+
+input-placeholder()
+  vendor('input-placeholder', arguments)

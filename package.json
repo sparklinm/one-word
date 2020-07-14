@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "dayjs": "^1.8.29",
     "element-ui": "^2.13.2",
     "express": "^4.17.1",
     "normalize.css": "^8.0.1",
@@ -18,7 +19,8 @@
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vuex": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",

@@ -8,7 +8,9 @@
       <span class="nickname">{{ card.nickName }}</span>
     </div>
     <div class="card-body">
-      {{ card.content }}
+      <div class="card-content">
+        {{ card.content }}
+      </div>
       <div>
         <el-image
           v-if="card.cover"
@@ -69,6 +71,8 @@ export default {
   .card-body
     margin-top 12px
     font-size 14px
+  .card-content
+    white-space pre-line
   .card-cover
     max-width 100%
   .card-footer

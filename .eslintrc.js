@@ -176,5 +176,8 @@ module.exports = {
         prev: '*'
       }
     ]
+  },
+  globals: {
+    dayjs: true
   }
 }

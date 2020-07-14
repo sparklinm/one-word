@@ -1,7 +1,10 @@
 <template>
   <main class="main">
-    <card-detail />
-    <Comments />
+    <card-detail :card="card" />
+    <Comments
+      :comments="card.comments"
+      @add="addComment"
+    />
   </main>
 </template>
 
@@ -15,10 +18,29 @@ export default {
     Comments
   },
   data () {
-    return {}
+    return {
+      card: {}
+    }
   },
   computed: {},
-  methods: {}
+  beforeCreate () {
+    const id = parseInt(this.$route.params.id)
+
+    this.$axios.get('/data/card.json').then((res) => {
+      const cards = res.data
+      const card = cards.find(card => card.id === id)
+
+      this.card = card
+    })
+  },
+  methods: {
+    addComment (comment) {
+      this.card.comments.push(comment)
+      this.$nextTick(() => {
+        document.documentElement.scrollTop = 10000
+      })
+    }
+  }
 }
 </script>
 

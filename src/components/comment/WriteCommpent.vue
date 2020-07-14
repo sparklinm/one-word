@@ -1,9 +1,8 @@
 <template>
   <div class="write-comment">
-    <textarea
-      id=""
+    <Editor
+      ref="editor"
       v-model="content"
-      name=""
       rows="5"
       class="write-box"
       placeholder="写下你想对作者说的话。"
@@ -20,19 +19,32 @@
 </template>
 
 <script>
+
+import { mapState } from 'vuex'
+import Editor from '@/components/Editor'
+
 export default {
+  components: {
+    Editor
+  },
   data () {
     return {
       content: ''
     }
   },
-  computed: {},
+  computed: {
+    ...mapState('user', ['user'])
+  },
   methods: {
     confirm () {
       const comment = {
+        ...this.user,
         content: this.content,
-        date: new Date().toLocaleString()
+        date: dayjs().format('YYYY-MM-DD dddd HH:mm:ss.SSS')
       }
+
+      this.$emit('add', comment)
+      this.$refs.editor.clear()
     }
   }
 }
@@ -49,7 +61,6 @@ export default {
     outline none
     height 60%
     width 100%
-    padding 10px
     box-sizing border-box
     line-height 20px
     background #ffe0cc

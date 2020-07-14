@@ -13,7 +13,7 @@
           :span="22"
           class="write-box-contianer"
         >
-          <textarea
+          <Editor
             v-model="content"
             class="write-box"
             :placeholder="placeholder"
@@ -54,7 +54,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import Editor from '@/components/Editor'
+
 export default {
+  components: {
+    Editor
+  },
   data () {
     return {
       user: {
@@ -68,7 +74,9 @@ export default {
       content: ''
     }
   },
-  computed: {},
+  computed: {
+    ...mapState('user', ['user'])
+  },
   methods: {
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url

@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { cutText } from '@/js/util'
 import Card from '@/components/card/Card'
 
 export default {
@@ -125,6 +126,22 @@ export default {
     }
   },
   computed: {},
+  beforeCreate () {
+    this.$axios.get('/data/card.json').then((res) => {
+      const cards = res.data
+
+      this.cards = cards.map(card => {
+        return {
+          id: card.id,
+          nickName: card.nickName,
+          head: card.head,
+          content: cutText(card.content, 100),
+          cover: card.imgs[0],
+          commentsNum: card.comments.length
+        }
+      })
+    })
+  },
   methods: {
     goPage (id) {
       this.$router
