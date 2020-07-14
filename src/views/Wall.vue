@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { getCards } from '@/js/data'
 import { cutText } from '@/js/util'
 import Card from '@/components/card/Card'
 
@@ -41,107 +42,24 @@ export default {
   },
   data () {
     return {
-      cards: [
-        {
-          id: 0,
-          nickName: '想不想喝奶茶',
-          head: require('@/assets/head.jpg'),
-          content:
-            ' 多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-          cover: require('@/assets/head.jpg'),
-          commentsNum: 12
-        },
-        {
-          nickName: '想不想喝奶茶',
-          head: require('../assets/head.jpg'),
-          content:
-            ' 多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-          commentsNum: 12
-        },
-        {
-          nickName: '想不想喝奶茶',
-          head: require('../assets/head.jpg'),
-          content:
-            ' 多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-          commentsNum: 12
-        },
-        {
-          nickName: '想不想喝奶茶',
-          head: require('../assets/head.jpg'),
-          content:
-            ' 多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-          commentsNum: 12
-        },
-        {
-          nickName: '想不想喝奶茶',
-          head: require('../assets/head.jpg'),
-          content:
-            ' 多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-          commentsNum: 12
-        },
-        {
-          nickName: '想不想喝奶茶',
-          head: require('../assets/head.jpg'),
-          content:
-            ' 多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-          commentsNum: 12
-        },
-        {
-          nickName: '想不想喝奶茶',
-          head: require('../assets/head.jpg'),
-          content:
-            ' 多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-          commentsNum: 12
-        },
-        {
-          nickName: '想不想喝奶茶',
-          head: require('../assets/head.jpg'),
-          content:
-            ' 多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-          commentsNum: 12
-        },
-        {
-          nickName: '想不想喝奶茶',
-          head: require('../assets/head.jpg'),
-          content:
-            ' 多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-          commentsNum: 12
-        },
-        {
-          nickName: '想不想喝奶茶',
-          head: require('../assets/head.jpg'),
-          content:
-            ' 多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-          commentsNum: 12
-        },
-        {
-          nickName: '想不想喝奶茶',
-          head: require('../assets/head.jpg'),
-          content:
-            ' 多希望我只是个孩子，给颗糖就笑，摔倒了就哭。不用伪装到面目全非，不用压抑自己的心情，笑着说无所谓，却往往笑得越开心，心里越疼。',
-          commentsNum: 12
-        }
-      ],
+      cards: [],
       activeName: 'first'
     }
   },
   computed: {},
-  beforeCreate () {
-    this.$axios.get('/data/card.json').then((res) => {
-      const cards = res.data
-
-      this.cards = cards.map(card => {
-        return {
-          id: card.id,
-          nickName: card.nickName,
-          head: card.head,
-          content: cutText(card.content, 100),
-          cover: card.imgs[0],
-          commentsNum: card.comments.length
-        }
-      })
+  async beforeCreate () {
+    this.cards = (await getCards()).map(card => {
+      return {
+        id: card.id,
+        nickName: card.nickName,
+        head: card.head,
+        content: cutText(card.content, 100),
+        cover: card.imgs[0],
+        commentsNum: card.comments && card.comments.length || 0
+      }
     })
   },
+
   methods: {
     goPage (id) {
       this.$router

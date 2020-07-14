@@ -18,7 +18,7 @@
           <span class="nickname">{{ comment.nickName }}</span>
         </div>
         <div class="comment-body">
-          <div
+          <pre
             class="content"
             v-html="comment.content"
           />

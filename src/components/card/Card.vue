@@ -8,12 +8,11 @@
       <span class="nickname">{{ card.nickName }}</span>
     </div>
     <div class="card-body">
-      <div class="card-content">
-        {{ card.content }}
-      </div>
-      <div>
+      <pre class="card-content">{{ card.content }}</pre>
+      <div
+        v-if="card.cover"
+      >
         <el-image
-          v-if="card.cover"
           :src="card.cover"
           class="card-cover"
           lazy
@@ -71,8 +70,6 @@ export default {
   .card-body
     margin-top 12px
     font-size 14px
-  .card-content
-    white-space pre-line
   .card-cover
     max-width 100%
   .card-footer

@@ -2,13 +2,14 @@
   <main class="main">
     <card-detail :card="card" />
     <Comments
-      :comments="card.comments"
+      :comments="card.comments||[]"
       @add="addComment"
     />
   </main>
 </template>
 
 <script>
+import { getCards } from '@/js/data'
 import CardDetail from '@/components/card/CardDetail'
 import Comments from '@/components/comment/Comments'
 
@@ -23,15 +24,12 @@ export default {
     }
   },
   computed: {},
-  beforeCreate () {
+  async beforeCreate () {
     const id = parseInt(this.$route.params.id)
+    const cards = await getCards()
+    const card = cards.find(card => card.id === id)
 
-    this.$axios.get('/data/card.json').then((res) => {
-      const cards = res.data
-      const card = cards.find(card => card.id === id)
-
-      this.card = card
-    })
+    this.card = card
   },
   methods: {
     addComment (comment) {

@@ -16,10 +16,11 @@
           <Editor
             v-model="content"
             class="write-box"
+            :autosize="{ minRows: 5, maxRows: 20 }"
             :placeholder="placeholder"
           />
 
-          <div>
+          <div class="upload-container">
             <el-upload
               ref="upload"
               action="#"
@@ -27,6 +28,7 @@
               :on-preview="handlePictureCardPreview"
               :on-change="hanldeSuccess"
               :auto-upload="false"
+              multiple
               :limit="9"
             >
               <i class="el-icon-plus" />
@@ -54,6 +56,7 @@
 </template>
 
 <script>
+import { blobToDataURL } from '@/js/util'
 import { mapState } from 'vuex'
 import Editor from '@/components/Editor'
 
@@ -63,10 +66,6 @@ export default {
   },
   data () {
     return {
-      user: {
-        nickName: '想不想喝奶茶',
-        head: require('@/assets/head.jpg')
-      },
       placeholder: '写下你的心情。',
       dialogImageUrl: '',
       dialogVisible: false,
@@ -82,17 +81,62 @@ export default {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     },
-    hanldeSuccess () {
-    },
+    hanldeSuccess () {},
     confirm () {
-      const imgs = this.$refs.upload.uploadFiles.map(item => item.url)
-      const word = {
-        imgs,
-        content: this.content,
-        date: new Date().toLocaleString()
+      if (!this.content.match(/\S/)) {
+        this.$notify({
+          title: '提示',
+          message: '请先输入内容。',
+          type: 'warning',
+          duration: 1500
+        })
+        return
       }
+      const imgs = []
+      const promiseArr = []
 
-      console.log(word)
+      this.$refs.upload.uploadFiles.forEach((item) => {
+        promiseArr.push(
+          blobToDataURL(item.raw).then((dataURL) => {
+            imgs.push(dataURL)
+          })
+        )
+      })
+
+      Promise.all(promiseArr).then(() => {
+        const word = {
+          ...this.user,
+          imgs,
+          content: this.content,
+          date: dayjs().format('YYYY-MM-DD dddd HH:mm:ss.SSS')
+        }
+
+        word.id = dayjs(word.date).valueOf()
+
+        let cards = localStorage.getItem('cards')
+
+        if (cards) {
+          cards = JSON.parse(cards)
+        } else {
+          cards = []
+        }
+        cards.push(word)
+        localStorage.setItem('cards', JSON.stringify(cards))
+
+        const loadingIns = this.$loading({
+          lock: true,
+          text: '发布中'
+        })
+
+        setTimeout(() => {
+          loadingIns.close()
+          this.$alert('发布成功').then(() => {
+            this.$router.push({
+              path: '/'
+            })
+          })
+        }, 3000)
+      })
     }
   }
 }
@@ -103,7 +147,7 @@ picture-card-width = 100px
 .write
   .write-inline
     border 1px solid #d3d391
-    height 500px
+    min-height 500px
     padding 20px
   .el-row
     height 100%
@@ -118,9 +162,10 @@ picture-card-width = 100px
     outline none
     height 60%
     width 100%
-    padding 10px
     box-sizing border-box
     line-height 20px
+  .upload-container
+    padding-left 15px
   .el-upload--picture-card,.el-upload-list__item
     width picture-card-width
     height picture-card-width

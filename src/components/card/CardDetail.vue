@@ -8,7 +8,7 @@
       <span class="nickname">{{ card.nickName }}</span>
     </div>
     <div class="card-detail-body">
-      <div
+      <pre
         class="content"
         v-html="card.content"
       />
@@ -75,8 +75,6 @@ export default {
     margin-left 20px
   .card-detail-body
     margin-bottom 40px
-  .content
-    white-space pre-wrap
   .imgs
     margin-top 50px
   .card-detail-foot
