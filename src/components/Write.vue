@@ -57,6 +57,7 @@
 
 <script>
 import { blobToDataURL } from '@/js/util'
+import { insertCards } from '@/js/data'
 import { mapState } from 'vuex'
 import Editor from '@/components/Editor'
 
@@ -108,20 +109,13 @@ export default {
           ...this.user,
           imgs,
           content: this.content,
-          date: dayjs().format('YYYY-MM-DD dddd HH:mm:ss.SSS')
+          date: dayjs().format('YYYY-MM-DD dddd HH:mm:ss.SSS'),
+          comments: []
         }
 
         word.id = dayjs(word.date).valueOf()
 
-        let cards = localStorage.getItem('cards')
-
-        if (cards) {
-          cards = JSON.parse(cards)
-        } else {
-          cards = []
-        }
-        cards.push(word)
-        localStorage.setItem('cards', JSON.stringify(cards))
+        insertCards(word)
 
         const loadingIns = this.$loading({
           lock: true,

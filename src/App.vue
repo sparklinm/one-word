@@ -33,7 +33,7 @@ export default {
 
 <style>
 .aa {
-  color: #707070;
+  color: #d34300;
   background: transparent;
 }
 </style>

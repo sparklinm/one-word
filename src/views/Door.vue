@@ -1,17 +1,34 @@
 <template>
   <main>
-    <div class="chart-rooms">
-      <Room
-        v-for="(room, index) in rooms"
-        :key="index"
-        :room="room"
-        @click.native="goPage(room.id)"
-      />
+    <div
+      class="chart-rooms"
+    >
+      <el-row
+        :gutter="20"
+      >
+        <el-col
+          v-for="(room, index) in rooms"
+          :key="index"
+          class="col-room"
+          :lg="8"
+          :md="12"
+          :sm="12"
+          :xs="12"
+        >
+          <Room
+
+            class="chart-rooms-item"
+            :room="room"
+            @click.native="goPage(room.id)"
+          />
+        </el-col>
+      </el-row>
     </div>
   </main>
 </template>
 
 <script>
+import { getRooms } from '@/js/data'
 import Room from '@/components/chart/Room'
 
 export default {
@@ -20,24 +37,11 @@ export default {
   },
   data () {
     return {
-      rooms: [
-        {
-          id: 0,
-          name: '测试房间',
-          background: require('@/assets/head.jpg'),
-          total: 100,
-          num: 50,
-          status: 'actived',
-          members: [
-            {
-              id: 0,
-              nickName: '想不想喝奶茶',
-              head: require('@/assets/head.jpg')
-            }
-          ]
-        }
-      ]
+      rooms: []
     }
+  },
+  async beforeCreate () {
+    this.rooms = await getRooms()
   },
   methods: {
     goPage (id) {
@@ -52,6 +56,11 @@ export default {
 </script>
 
 <style lang='stylus'>
-
+.chart-rooms
+  .col-room
+    text-align center
+  .chart-rooms-item
+    margin 0 0px 20px 0
+    text-align left
 
 </style>

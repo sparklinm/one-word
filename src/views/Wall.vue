@@ -19,7 +19,7 @@
             :key="index"
             :card="card"
             class="wall-card"
-            @click.native="goPage(card.id)"
+            @click="goPage(card.id)"
           />
         </div>
       </el-tab-pane>
@@ -87,6 +87,7 @@ export default {
     column-gap: 15px;
   .wall-card
     margin-bottom 20px
+    width 100%
   .icon-creat
     position fixed
     top 100px

@@ -1,47 +1,71 @@
 <template>
-  <nav class="nav">
+  <div>
+    <i
+      class="el-icon-s-unfold btn-unfold-nav"
+      @click="unFoldNav"
+    />
     <div
-      class="nav-inline"
-    >
-      <div class="user">
-        <el-avatar
-          :src="user.head"
-          class="user-head"
-          :size="100"
-        />
-        <div>
-          <span class="nickname">{{ user.nickName }}</span>
-        </div>
-      </div>
-      <el-menu
-        mode="vertical"
-        active-text-color="#ffaf1c"
-        text-color="#fff"
-        background-color="#242424"
-        @select="goPage"
+      v-show="showMask"
+      class="mask"
+      @click="foldNav"
+    />
+    <transition name="slide">
+      <nav
+        v-show="showNav"
+        class="nav"
       >
-        <el-menu-item index="">
-          墙
-        </el-menu-item>
-        <el-menu-item index="door">
-          传送门
-        </el-menu-item>
-      </el-menu>
-    </div>
-  </nav>
+        <div
+          class="nav-inline"
+        >
+          <div class="user">
+            <el-avatar
+              :src="user.head"
+              class="user-head"
+              :size="100"
+            />
+            <div>
+              <span class="nickname">{{ user.nickName }}</span>
+            </div>
+          </div>
+          <el-menu
+            mode="vertical"
+            active-text-color="#ffaf1c"
+            text-color="#fff"
+            background-color="#242424"
+            @select="goPage"
+          >
+            <el-menu-item index="">
+              墙
+            </el-menu-item>
+            <el-menu-item index="door">
+              传送门
+            </el-menu-item>
+          </el-menu>
+        </div>
+      </nav>
+    </transition>
+  </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data () {
     return {
-      user: {
-        nickName: '想不想喝奶茶',
-        head: require('@/assets/head.jpg')
-      }
+      showNav: true,
+      showMask: false
     }
   },
-  computed: {},
+  computed: {
+    ...mapState('user', ['user'])
+  },
+  mounted () {
+    this.handleResize()
+    window.addEventListener('resize', () => {
+      this.handleResize()
+    })
+  },
   methods: {
     goPage (path) {
       this.$router
@@ -49,6 +73,23 @@ export default {
           path: `/${path}`
         })
         .catch((err) => err)
+    },
+    unFoldNav () {
+      this.showNav = true
+      this.showMask = true
+    },
+    foldNav () {
+      this.showNav = false
+      this.showMask = false
+    },
+    handleResize () {
+      if (document.documentElement.clientWidth < 768) {
+        this.showNav = false
+        this.showMask = false
+      } else {
+        this.showNav = true
+        this.showMask = false
+      }
     }
   }
 }
@@ -63,6 +104,7 @@ export default {
   background #242424
   color white
   font-size 14px
+  z-index 500
   .user
     padding 0 20px
   .nav-inline
@@ -80,4 +122,17 @@ export default {
   .el-menu-item.is-active
     background black !important
     border-left 4px solid #ffaf1c
+
+.btn-unfold-nav
+  font-size 26px
+  padding 20px
+  position fixed
+  color #d34300
+
+.slide-enter-active
+.slide-leave-active
+  transition transform 0.3s ease
+
+.slide-enter,.slide-leave-to
+  transform translateX(-100%)
 </style>

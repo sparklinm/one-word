@@ -1,5 +1,8 @@
 <template>
-  <div class="card">
+  <div
+    class="card"
+    @click="$emit('click')"
+  >
     <div class="card-head">
       <el-avatar
         :src="card.head"
@@ -16,7 +19,6 @@
           :src="card.cover"
           class="card-cover"
           lazy
-          :preview-src-list="[card.content]"
           alt
         />
       </div>
@@ -57,13 +59,14 @@ export default {
   border 1px solid #d7dae2
   background white
   padding 20px
-  min-width 200px
-  max-width 300px
+  width 300px
+  box-sizing border-box
   .card-head
     display flex
     justify-content space-between
   .user-head
     margin-right 15px
+    flex-shrink 0
   .nickname
     vertical-align top
     font-size 12px

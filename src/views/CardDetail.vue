@@ -2,14 +2,14 @@
   <main class="main">
     <card-detail :card="card" />
     <Comments
-      :comments="card.comments||[]"
+      :comments="card.comments || []"
       @add="addComment"
     />
   </main>
 </template>
 
 <script>
-import { getCards } from '@/js/data'
+import { getCards, putCards } from '@/js/data'
 import CardDetail from '@/components/card/CardDetail'
 import Comments from '@/components/comment/Comments'
 
@@ -18,22 +18,41 @@ export default {
     CardDetail,
     Comments
   },
+  props: {
+    id: {
+      type: [String, Number],
+      default: ''
+    }
+  },
   data () {
     return {
       card: {}
     }
   },
   computed: {},
-  async beforeCreate () {
-    const id = parseInt(this.$route.params.id)
+  async created () {
+    const id = parseInt(this.id)
     const cards = await getCards()
-    const card = cards.find(card => card.id === id)
+    const card = cards.find((card) => card.id === id)
 
     this.card = card
+  },
+  beforeDestroy () {
+
+    // 临时的处理
+    if (this.id > 100) {
+      putCards(this.card)
+    }
   },
   methods: {
     addComment (comment) {
       this.card.comments.push(comment)
+      this.$message({
+        message: '评论成功',
+        type: 'success',
+        customClass: 'el-message-bottom',
+        duration: 2000
+      })
       this.$nextTick(() => {
         document.documentElement.scrollTop = 10000
       })

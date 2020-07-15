@@ -25,7 +25,7 @@
       </div>
       <div class="room-members">
         <el-avatar
-          v-for="(member,index) in room.members"
+          v-for="(member,index) in room.members.slice(0,4)"
           :key="index"
           :src="member.head"
           :size="24"
@@ -42,17 +42,17 @@ export default {
     room: {
       type: Object,
       default: () => ({
-        id: 0,
-        name: '测试房间',
-        background: require('@/assets/head.jpg'),
-        total: 100,
-        num: 50,
-        status: 'actived',
+        id: -1,
+        name: '',
+        background: '',
+        total: 0,
+        num: 0,
+        status: '',
         members: [
           {
-            id: 0,
-            nickName: '想不想喝奶茶',
-            head: require('@/assets/head.jpg')
+            id: -1,
+            nickName: '',
+            head: ''
           }
         ]
       })
@@ -74,7 +74,9 @@ border-radius = 6px
   display inline-block
   padding 15px
   border-radius border-radius
-  min-width 200px
+  // min-width 200px
+  width 100%
+  box-sizing border-box
   background-size contain
   background-repeat no-repeat
   position relative
@@ -86,7 +88,7 @@ border-radius = 6px
     object-fit cover
     left 0
     top 0
-    // filter blur(5px)
+    // filter blur(2px)
     border-radius border-radius
   .room-mask
     position absolute
@@ -108,6 +110,7 @@ border-radius = 6px
     tag()
   .room-members
     margin-top 10px
-
-
+    white-space nowrap
+  .user-head
+    margin-right 8px
 </style>

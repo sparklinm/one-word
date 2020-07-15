@@ -8,6 +8,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import { Loading } from 'element-ui'
 import { MessageBox } from 'element-ui'
+import { Message } from 'element-ui'
 
 import axios from 'axios'
 import 'normalize.css'
@@ -23,6 +24,7 @@ dayjs.locale('zh-cn')
 
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$message = Message
 
 const requireComponent = require.context('./components/global', true, /\.vue$/)
 

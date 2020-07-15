@@ -1,9 +1,15 @@
 @import './variable.styl'
 
+
+html {
+  font-size: 100px
+}
+
 body
   font-family 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif
   line-height 1.5
   background $themeColor
+  font-size: 16px
 
 .main
   width 60%
@@ -20,10 +26,10 @@ body
   .el-tabs__nav-wrap::after
     background-color $tabBorder
 
-.chart-room
+.chat-room
   background $chartBackground
   box-shadow $chartBoxShadow
-  .chart-room-inline
+  .chat-room-inline
     border-right 1px solid $chartEditorBorder
   .room-name
     background $chartEditotHead
@@ -38,6 +44,17 @@ pre
   white-space: pre-wrap
   font-family 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif
   margin: 0
+  word-break: break-word
+
+.mask
+  position: fixed
+  left 0
+  top 0
+  bottom 0
+  right 0
+  background: black
+  opacity 0.6
+  z-index: 200
 
 // 图片自适应排列
 .cm-img-list
@@ -66,3 +83,30 @@ pre
   height 100%
   width 100%
 
+
+.el-loading-small
+  .el-loading-spinner .circular
+    height 14px
+    width: 14px
+  .el-loading-spinner .path
+    stroke $gray
+  .el-loading-spinner .el-loading-text
+    color $gray
+    font-size: 12px
+    margin: 0
+    
+
+.el-message-bottom
+  top auto !important
+  bottom 40px
+  background #fff
+  &.el-message-fade-enter,&.el-message-fade-leave-active
+    -webkit-transform: translate(-50%, 100%)
+    transform: translate(-50%, 100%)
+
+
+
+
+
+
+@import './mobile.styl'

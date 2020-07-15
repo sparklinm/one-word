@@ -178,6 +178,7 @@ module.exports = {
     ]
   },
   globals: {
-    dayjs: true
+    dayjs: true,
+    uuid: true
   }
 }
