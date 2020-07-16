@@ -74,6 +74,7 @@ export default {
     margin-top 12px
     font-size 14px
   .card-cover
+    margin-top 10px
     max-width 100%
   .card-footer
     margin-top 20px

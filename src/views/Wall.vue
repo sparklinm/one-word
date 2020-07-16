@@ -1,10 +1,5 @@
 <template>
-  <main class="main">
-    <Icon
-      name="pen"
-      class="icon-creat"
-      @click="goCreatPage"
-    />
+  <main class="wall-main">
     <el-tabs
       v-model="activeName"
       class="tabs"
@@ -28,6 +23,14 @@
         name="second"
       />
     </el-tabs>
+    <el-collapse-transition>
+      <Icon
+        v-show="showIconCreat"
+        name="pen"
+        class="icon-creat"
+        @click="goCreatPage"
+      />
+    </el-collapse-transition>
   </main>
 </template>
 
@@ -43,7 +46,8 @@ export default {
   data () {
     return {
       cards: [],
-      activeName: 'first'
+      activeName: 'first',
+      showIconCreat: false
     }
   },
   computed: {},
@@ -58,6 +62,12 @@ export default {
         commentsNum: card.comments && card.comments.length || 0
       }
     })
+  },
+
+  mounted () {
+    setTimeout(() => {
+      this.showIconCreat = true
+    }, 700)
   },
 
   methods: {
@@ -80,7 +90,8 @@ export default {
 </script>
 
 <style lang="stylus">
-.main
+.wall-main
+  position relative
   .cards-container
     margin: 10px;
     column-count: 3;
@@ -89,11 +100,18 @@ export default {
     margin-bottom 20px
     width 100%
   .icon-creat
-    position fixed
-    top 100px
-    right 100px
+    position: absolute;
+    top: -20px;
+    right: 0;
     font-size 40px
     color #0a618d
     cursor pointer
+    z-index 100
+  // .icon-creat-enter-active
+  // .icon-creat-leave-active
+  //   transition all 0.3s ease
+  // .icon-creat-leave-to
+  // .icon-creat-enter
+
 
 </style>

@@ -60,11 +60,19 @@ export default {
   computed: {
     ...mapState('user', ['user'])
   },
+  watch: {
+    $route () {
+      if (this.isNarrow) {
+        this.foldNav()
+      }
+    }
+  },
   mounted () {
     this.handleResize()
-    window.addEventListener('resize', () => {
-      this.handleResize()
-    })
+    window.addEventListener('resize', this.handleResize)
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.handleResize)
   },
   methods: {
     goPage (path) {
@@ -83,10 +91,12 @@ export default {
       this.showMask = false
     },
     handleResize () {
-      if (document.documentElement.clientWidth < 768) {
+      if (document.documentElement.clientWidth <= 768) {
+        this.isNarrow = true
         this.showNav = false
         this.showMask = false
       } else {
+        this.isNarrow = false
         this.showNav = true
         this.showMask = false
       }
@@ -128,6 +138,7 @@ export default {
   padding 20px
   position fixed
   color #d34300
+  z-index 100
 
 .slide-enter-active
 .slide-leave-active

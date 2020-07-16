@@ -3,9 +3,9 @@
     <div class="banner-inline">
       <el-row :gutter="2">
         <el-col>
-          <div class="banner-title">
+          <!-- <div class="banner-title">
             One Word
-          </div>
+          </div> -->
           <div class="banner-title-desc">
             记录你此刻的心情，与陌生人畅聊
           </div>

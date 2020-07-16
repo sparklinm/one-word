@@ -394,7 +394,7 @@ body-height = room-height - head-height - 97px
   width 900px
   .chat-room-inline
     position relative
-    width 80%
+    width 70%
   .room-name
     text-align center
     font-size 22px
@@ -404,7 +404,7 @@ body-height = room-height - head-height - 97px
     padding 20px
     height body-height
     overflow auto
-    white-space pre
+    white-space pre-wrap
     box-sizing border-box
   .history
     font-size 12px
@@ -476,7 +476,7 @@ body-height = room-height - head-height - 97px
     width 100%
     height 100%
   .room-data
-    width 40%
+    width 30%
     padding 10px
     pre
       margin 0

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <main class="chat-main">
     <chat :room="room" />
-  </div>
+  </main>
 </template>
 
 <script>
@@ -41,6 +41,7 @@ export default {
 </script>
 
 <style lang='stylus'>
-
+.chat-main
+  height calc(100% - 180px)
 
 </style>

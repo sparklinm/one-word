@@ -4,12 +4,21 @@
     width 70%
     margin 0 auto
 
+
+@media screen and (max-width 1300px)
+  #app
+    .chat-main
+      width 90%
+    .chat-room
+      width: 100%
+      .room-data .panel-title
+        font-size: 12px
+
 @media screen and (max-width 1200px)
   .main 
     width 70%
     .cards-container
       columns 2
-
 
 @media screen and (max-width 992px)
   .main 
@@ -26,9 +35,21 @@
   .container
     padding-left 0
 
+  #app
+    .chat-room 
+      height 
+      .room-data
+        display none
+      .chat-room-inline
+        width 100%
+
 @media screen and (max-width 425px)
   .main 
     width 95%
+  .card
+    border-radius 20px
+  .room-name
+    font-size: 14px
 
 
 @media screen and (min-width 768px)
