@@ -81,7 +81,7 @@ export default {
 }
 
 .router-fade-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .router-fade-leave-active .icon-creat {
@@ -89,12 +89,12 @@ export default {
 }
 
 .router-fade-enter-active {
-  transition: all 0.3s ease 0.3s;
+  transition: all 0.2s ease 0.2s;
 }
 
 .router-fade-enter,
 .router-fade-leave-to {
-  transform: translate(3%, 0);
+  transform: translate(1%, 0);
   opacity: 0;
 }
 </style>

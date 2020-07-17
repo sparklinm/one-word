@@ -1,16 +1,16 @@
 <template>
   <div class="write">
     <div class="write-inline">
-      <el-row :gutter="2">
-        <el-col :span="2">
+      <el-row :gutter="3">
+        <el-col :span="3">
           <el-avatar
             :src="user.head"
-            class="user-head"
             :size="50"
+            class="user-head"
           />
         </el-col>
         <el-col
-          :span="22"
+          :span="21"
           class="write-box-contianer"
         >
           <Editor

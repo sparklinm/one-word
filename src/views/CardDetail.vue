@@ -1,5 +1,5 @@
 <template>
-  <main class="main">
+  <main class="card-detail-main">
     <card-detail :card="card" />
     <Comments
       :comments="card.comments || []"
@@ -62,5 +62,7 @@ export default {
 </script>
 
 <style lang="stylus">
-
+.card-detail-main
+  width 50%
+  margin -50px auto 0
 </style>

@@ -1,32 +1,34 @@
 
 @media screen and (max-width 1500px)
-  .main 
+  .main
     width 70%
     margin 0 auto
-
 
 @media screen and (max-width 1300px)
   #app
     .chat-main
       width 90%
     .chat-room
-      width: 100%
+      width 100%
       .room-data .panel-title
-        font-size: 12px
+        font-size 12px
 
 @media screen and (max-width 1200px)
-  .main 
+  .main
     width 70%
     .cards-container
       columns 2
+  #app
+    .card-detail-main
+      width 80%
 
 @media screen and (max-width 992px)
-  .main 
+  .main
     width 80%
 
 
 @media screen and (max-width 768px)
-  .main 
+  .main
     width 80%
   .nav
     width 180px
@@ -34,22 +36,40 @@
       display ''
   .container
     padding-left 0
-
   #app
-    .chat-room 
-      height 
+    .chat-main
+      position: fixed
+      width 100%
+      height 100%
+    .chat-room
+      height 100%
       .room-data
         display none
       .chat-room-inline
         width 100%
+  .banner
+    &.banner-chartRoom
+      display: none
 
 @media screen and (max-width 425px)
-  .main 
+  .main
     width 95%
   .card
     border-radius 20px
   .room-name
-    font-size: 14px
+    font-size 14px
+  .banner
+    .banner-inline
+      display block
+    .banner-img
+      width: 80%
+      margin-top: 20px
+    &.banner-Creat
+      display: none
+   #app .write
+    .write-inline
+      margin-top: 60px
+      padding: 10px
 
 
 @media screen and (min-width 768px)

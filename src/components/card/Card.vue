@@ -18,7 +18,6 @@
         <el-image
           :src="card.cover"
           class="card-cover"
-          lazy
           alt
         />
       </div>

@@ -24,7 +24,6 @@
             :src="img"
             class="img-item cm-img-list_item-container"
             fit="cover"
-            lazy
             :preview-src-list="[img]"
           />
         </div>

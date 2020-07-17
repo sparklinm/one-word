@@ -138,6 +138,8 @@ export default {
   padding 20px
   position fixed
   color #d34300
+  top 0px
+  left 0
   z-index 100
 
 .slide-enter-active

@@ -10,10 +10,11 @@ body
   line-height 1.5
   background $themeColor
   font-size: 16px
+  color: #333
 
 .main
   width 60%
-  margin-left: 15%
+  margin: 0 auto
 
 .text-gray
   color #505050
@@ -83,7 +84,6 @@ pre
   height 100%
   width 100%
 
-
 .el-loading-small
   .el-loading-spinner .circular
     height 14px
@@ -104,8 +104,18 @@ pre
     -webkit-transform: translate(-50%, 100%)
     transform: translate(-50%, 100%)
 
+.el-icon-middle
+  font-size: 24px
+
+.el-icon-big
+  font-size: 36px
 
 
+.hover-big 
+  &:hover
+    cursor pointer
+    transform: scale(1.03)
+    transition: all 0.3s ease
 
 
 
