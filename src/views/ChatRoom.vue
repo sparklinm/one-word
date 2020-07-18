@@ -1,17 +1,17 @@
 <template>
   <main class="chat-main">
-    <chat :room="room" />
+    <Chat :room="room" />
   </main>
 </template>
 
 <script>
 import { getRooms } from '@/js/data'
 import { mapState } from 'vuex'
-import chat from '@/components/chart/chat'
+import Chat from '@/components/chat/ChatGroup'
 
 export default {
   components: {
-    chat
+    Chat
   },
   props: {
     id: {

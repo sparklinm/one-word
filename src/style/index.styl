@@ -27,12 +27,12 @@ body
   .el-tabs__nav-wrap::after
     background-color $tabBorder
 
-.chat-room
+.chat-box
   background $chartBackground
   box-shadow $chartBoxShadow
-  .chat-room-inline
+  .chat-box-inline
     border-right 1px solid $chartEditorBorder
-  .room-name
+  .chat-title
     background $chartEditotHead
     color $chartEditotHeadFont
   .editor
@@ -40,6 +40,9 @@ body
   .item-content
     border 1px solid #ddd
     color #3b3b3b
+
+.vm 
+  vertical-align: middle
 
 pre 
   white-space: pre-wrap
@@ -109,6 +112,13 @@ pre
 
 .el-icon-big
   font-size: 36px
+
+
+.el-select-dropdown__item.selected
+  color #FF9966
+
+.el-select .el-input.is-focus .el-input__inner, .el-select .el-input__inner:focus
+  border-color: #FF9966
 
 
 .hover-big 

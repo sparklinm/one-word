@@ -1,8 +1,12 @@
 <template>
   <main>
+    <MoodMatch />
     <div
-      class="chart-rooms"
+      class="chat-rooms"
     >
+      <div class="title">
+        聊天房间
+      </div>
       <el-row
         :gutter="20"
       >
@@ -17,7 +21,7 @@
         >
           <Room
 
-            class="chart-rooms-item"
+            class="chat-rooms-item"
             :room="room"
             @click.native="goPage(room.id)"
           />
@@ -29,11 +33,13 @@
 
 <script>
 import { getRooms } from '@/js/data'
-import Room from '@/components/chart/Room'
+import Room from '@/components/chat/Room'
+import MoodMatch from '@/components/chat/MoodMatch'
 
 export default {
   components: {
-    Room
+    Room,
+    MoodMatch
   },
   data () {
     return {
@@ -47,7 +53,7 @@ export default {
     goPage (id) {
       this.$router
         .push({
-          path: `/chart-room/${id}`
+          path: `/chat-room/${id}`
         })
         .catch((err) => err)
     }
@@ -56,11 +62,15 @@ export default {
 </script>
 
 <style lang='stylus'>
-.chart-rooms
+.chat-rooms
   .col-room
     text-align center
-  .chart-rooms-item
+  .chat-rooms-item
     margin 0 0px 20px 0
     text-align left
+  .title
+    font-size 18px
+    font-weight 600
+    margin-bottom 10px
 
 </style>

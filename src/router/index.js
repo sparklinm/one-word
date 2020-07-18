@@ -31,10 +31,15 @@ const routes = [
     component: () => import('../views/Door.vue')
   },
   {
-    path: '/chart-room/:id',
+    path: '/chat-room/:id',
     name: 'chartRoom',
-    component: () => import('../views/ChartRoom.vue'),
+    component: () => import('../views/ChatRoom.vue'),
     props: true
+  },
+  {
+    path: '/chat-one/:id',
+    name: 'ChatOne',
+    component: () => import('../views/ChatOne.vue')
   }
 ]
 

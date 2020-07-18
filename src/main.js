@@ -24,6 +24,7 @@ dayjs.locale('zh-cn')
 
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$message = Message
 
 const requireComponent = require.context('./components/global', true, /\.vue$/)

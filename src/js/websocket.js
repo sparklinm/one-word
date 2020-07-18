@@ -48,6 +48,19 @@ function receiveGetMessages (callback) {
   on('get-messages', callback)
 }
 
+function sendMatch (data) {
+  emit('match', data)
+}
+
+function receiveMatch (callback) {
+  removeAllListeners()
+  on('match', callback)
+}
+
+function sendCancelMatch (data) {
+  emit('cancel-match', data)
+}
+
 export {
   sendChat,
   receiveChat,
@@ -56,5 +69,8 @@ export {
   receiveEnterRoom,
   removeAllListeners,
   sendGetMessages,
-  receiveGetMessages
+  receiveGetMessages,
+  sendMatch,
+  receiveMatch,
+  sendCancelMatch
 }

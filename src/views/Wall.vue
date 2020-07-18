@@ -43,7 +43,10 @@
         class="el-icon-loading el-icon-middle"
       />
       <transition name="el-fade-in">
-        <span v-show="showNoMoreData">无更多数据</span>
+        <span
+          v-show="showNoMoreData"
+          class="text-gray"
+        >无更多数据</span>
       </transition>
     </div>
     <el-collapse-transition>
