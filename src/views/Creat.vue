@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main creat-main">
     <Write />
   </div>
 </template>

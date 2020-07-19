@@ -1,77 +1,74 @@
 
-@media screen and (max-width 1500px)
-  .main
-    width 70%
-    margin 0 auto
-
-@media screen and (max-width 1300px)
-  #app
-    .chat-main
+#app
+  @media screen and (max-width 1500px)
+    .main
+      width 70%
+      margin-left: auto
+      margin-right: auto
+  @media screen and (max-width 1300px)
+    .main.chat-main
       width 90%
     .chat-room
       width 100%
       .room-data .panel-title
         font-size 12px
-
-@media screen and (max-width 1200px)
-  .main
-    width 70%
-    .cards-container
-      columns 2
-  #app
-    .card-detail-main
+  @media screen and (max-width 1200px)
+    .main
+      width 70%
+      .cards-container
+        columns 2
+    .main.card-detail-main
       width 80%
-
-@media screen and (max-width 992px)
-  .main
-    width 80%
-
-
-@media screen and (max-width 768px)
-  .main
-    width 80%
-  .nav
-    width 180px
-    .btn-unfold-nav
-      display ''
-  .container
-    padding-left 0
-  #app
-    .chat-main
-      position: fixed
+  @media screen and (max-width 992px)
+    .main
+      width 80%
+    .chat-box, .chat-one
+      width 100%
+  @media screen and (max-width 768px)
+    .main
+      width 80%
+    .nav
+      width 180px
+      .btn-unfold-nav
+        display ''
+    .container
+      padding-left 0
+    .main.chat-main
+      position fixed
       width 100%
       height 100%
-    .chat-room,.chat-box
+    .chat-room, .chat-box, .chat-one
       height 100%
+      width 100%
+      margin-top 0
     .room-data
       display none
     .chat-box-inline
       width 100%
-  .banner
-    &.banner-chartRoom
-      display: none
-
-@media screen and (max-width 425px)
-  .main
-    width 95%
-  .card
-    border-radius 20px
-  .room-name
-    font-size 14px
-  .banner
-    .banner-inline
-      display block
-    .banner-img
-      width: 80%
-      margin-top: 20px
-    &.banner-Creat
-      display: none
-   #app .write
-    .write-inline
-      margin-top: 60px
-      padding: 10px
-
-
-@media screen and (min-width 768px)
-  .btn-unfold-nav
-    display none
+    .main.card-detail-main
+      margin-top 100px
+    .banner
+      &.hide-on-narrow
+        display none
+  @media screen and (max-width 425px)
+    .main
+      width 95%
+    .card
+      border-radius 20px
+    .room-name
+      font-size 14px
+    .banner
+      .banner-inline
+        display block
+      .banner-img
+        width 80%
+        margin-top 20px
+      &.banner-Creat
+        display none
+    .write
+      .write-inline
+        margin-top 60px
+        padding 10px
+  @media screen and (min-width 769px)
+    .btn-unfold-nav
+      display none

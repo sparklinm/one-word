@@ -10,26 +10,22 @@
             One Word
           </div> -->
 
-      <transition name="el-fade-in">
-        <div
-          v-show="show"
-          class="banner-desc"
-        >
-          <span>
-            山中何事？松花酿酒，春水煎茶。
-          </span>
-        </div>
-      </transition>
+      <div
+        v-show="show"
+        class="banner-desc"
+      >
+        <span>
+          山中何事？松花酿酒，春水煎茶。
+        </span>
+      </div>
 
 
-      <transition name="el-fade-in">
-        <el-image
-          v-show="show"
-          class="banner-img"
-          fit="contain"
-          :src="require('../assets/banner.png')"
-        />
-      </transition>
+      <el-image
+        v-show="show"
+        class="banner-img"
+        fit="contain"
+        :src="require('../assets/banner.png')"
+      />
     </div>
   </div>
 </template>
@@ -46,16 +42,15 @@ export default {
   watch: {
     $route: {
       handler (to) {
-        const arr = ['chartRoom', 'CardDetail']
-
         this.bannerClass = {
           [`banner-${to.name}`]: true
         }
-
-        if (arr.includes(to.name)) {
+        if (to.meta && to.meta.hideBanner) {
           this.show = false
+          this.bannerClass['hide-on-narrow'] = true
         } else {
           this.show = true
+          this.bannerClass['hide-on-narrow'] = false
         }
       },
       immediate: true

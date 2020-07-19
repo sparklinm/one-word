@@ -59,7 +59,9 @@
 </template>
 
 <script>
-import { receiveMatch, sendMatch, sendCancelMatch, removeAllListeners } from '@/js/websocket'
+import {
+  receiveMatch, sendMatch, sendCancelMatch, removeAllListeners
+} from '@/js/websocket'
 import { mapState, mapMutations } from 'vuex'
 
 export default {

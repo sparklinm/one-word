@@ -89,6 +89,5 @@ export default {
 </script>
 
 <style lang="stylus">
-.chat-one
-  width 80%
+
 </style>

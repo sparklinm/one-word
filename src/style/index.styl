@@ -1,20 +1,18 @@
 @import './variable.styl'
 
-
-html {
-  font-size: 100px
-}
+html
+  font-size 100px
 
 body
   font-family 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif
   line-height 1.5
   background $themeColor
-  font-size: 16px
-  color: #333
+  font-size 16px
+  color #333
 
 .main
   width 60%
-  margin: 0 auto
+  margin 0 auto
 
 .text-gray
   color #505050
@@ -41,24 +39,24 @@ body
     border 1px solid #ddd
     color #3b3b3b
 
-.vm 
-  vertical-align: middle
+.vm
+  vertical-align middle
 
-pre 
-  white-space: pre-wrap
+pre
+  white-space pre-wrap
   font-family 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif
-  margin: 0
-  word-break: break-word
+  margin 0
+  word-break break-word
 
 .mask
-  position: fixed
+  position fixed
   left 0
   top 0
   bottom 0
   right 0
-  background: black
+  background black
   opacity 0.6
-  z-index: 200
+  z-index 200
 
 // 图片自适应排列
 .cm-img-list
@@ -90,43 +88,39 @@ pre
 .el-loading-small
   .el-loading-spinner .circular
     height 14px
-    width: 14px
+    width 14px
   .el-loading-spinner .path
     stroke $gray
   .el-loading-spinner .el-loading-text
     color $gray
-    font-size: 12px
-    margin: 0
-    
+    font-size 12px
+    margin 0
 
 .el-message-bottom
   top auto !important
   bottom 40px
   background #fff
-  &.el-message-fade-enter,&.el-message-fade-leave-active
-    -webkit-transform: translate(-50%, 100%)
-    transform: translate(-50%, 100%)
+  &.el-message-fade-enter, &.el-message-fade-leave-active
+    -webkit-transform translate(-50%, 100%)
+    transform translate(-50%, 100%)
 
 .el-icon-middle
-  font-size: 24px
+  font-size 24px
 
 .el-icon-big
-  font-size: 36px
-
+  font-size 36px
 
 .el-select-dropdown__item.selected
   color #FF9966
 
 .el-select .el-input.is-focus .el-input__inner, .el-select .el-input__inner:focus
-  border-color: #FF9966
+  border-color #FF9966
 
-
-.hover-big 
+.hover-big
   &:hover
     cursor pointer
-    transform: scale(1.03)
-    transition: all 0.3s ease
-
-
+    transform scale(1.03)
+    transition all 0.3s ease
 
 @import './mobile.styl'
+@import './chat.styl'

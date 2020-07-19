@@ -3,29 +3,13 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import { Loading } from 'element-ui'
-import { MessageBox } from 'element-ui'
-import { Message } from 'element-ui'
-
 import axios from 'axios'
+
+import './lib'
 import 'normalize.css'
 import './style/index.styl'
 
 
-
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import 'dayjs/locale/zh-cn'
-dayjs.extend(relativeTime)
-dayjs.locale('zh-cn')
-
-Vue.prototype.$loading = Loading.service
-Vue.prototype.$alert = MessageBox.alert
-Vue.prototype.$confirm = MessageBox.confirm
-Vue.prototype.$message = Message
 
 const requireComponent = require.context('./components/global', true, /\.vue$/)
 
@@ -44,7 +28,6 @@ requireComponent.keys().forEach(fileName => {
 
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
-Vue.use(ElementUI)
 
 new Vue({
   router,

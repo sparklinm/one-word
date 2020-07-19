@@ -1,5 +1,6 @@
 const io = require('socket.io-client')
 // 此时会触发后台的connect事件
+// websocket 不会引起跨域
 const socket = io('ws://127.0.0.1:3001') // 建立链接
 
 

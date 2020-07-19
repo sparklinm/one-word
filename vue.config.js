@@ -1,4 +1,7 @@
 const webpack = require('webpack')
+const CompressionPlugin = require('compression-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   configureWebpack: {
@@ -10,5 +13,55 @@ module.exports = {
         uuid: 'node-uuid'
       })
     ]
-  }
+  },
+  chainWebpack: config => {
+    // // 解决ie11兼容ES6
+    // config.entry('main').add('babel-polyfill')
+    // // 开启图片压缩
+    // config.module.rule('images')
+    //   .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
+    //   .use('image-webpack-loader')
+    //   .loader('image-webpack-loader')
+    //   .options({
+    //     bypassOnDebug: true
+    //   })
+    // 开启js、css压缩
+    config.optimization.minimize(true)
+    if (process.env.NODE_ENV === 'production') {
+      config.plugin('compressionPlugin')
+        .use(new CompressionPlugin({
+          test: /\.js$|\.html$|.\css/, // 匹配文件名
+          threshold: 1000, // 对超过10k的数据压缩
+          deleteOriginalAssets: false // 不删除源文件
+        }))
+      config.plugin('terser').use(
+        new TerserPlugin({
+          terserOptions: {
+            compress: {
+              drop_debugger: true,
+              drop_console: true // 生产环境自动删除console
+            },
+            warnings: false
+          },
+          sourceMap: false,
+          parallel: true // 使用多进程并行运行来提高构建速度。默认并发运行数：os.cpus().length - 1。
+        })
+      )
+    }
+  },
+
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:3001', // 对应自己的接口
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/api': '/'
+        }
+      }
+    }
+  },
+  productionSourceMap: false,
+  publicPath: './'
 }

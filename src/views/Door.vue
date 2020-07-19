@@ -1,5 +1,6 @@
 <template>
   <main>
+    <ChatBot />
     <MoodMatch />
     <div
       class="chat-rooms"
@@ -35,11 +36,13 @@
 import { getRooms } from '@/js/data'
 import Room from '@/components/chat/Room'
 import MoodMatch from '@/components/chat/MoodMatch'
+import ChatBot from '@/components/chat/ChatBot'
 
 export default {
   components: {
     Room,
-    MoodMatch
+    MoodMatch,
+    ChatBot
   },
   data () {
     return {
