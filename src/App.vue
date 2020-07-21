@@ -44,6 +44,9 @@ export default {
   destroyed () {
     window.removeEventListener('resize', this.changeRootFont)
   },
+  mounted () {
+    document.querySelector('.cm-enter-loading').remove()
+  },
   methods: {
     changeRootFont () {
       let rootFont = (document.body.clientWidth / 768) * 100
