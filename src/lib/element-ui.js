@@ -23,7 +23,8 @@ import {
   Menu,
   MenuItem,
   Tabs,
-  TabPane
+  TabPane,
+  Notification
 } from 'element-ui'
 
 Vue.use(Dialog)
@@ -53,3 +54,4 @@ Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$message = Message
+Vue.prototype.$notify = Notification

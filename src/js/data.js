@@ -1,7 +1,12 @@
 import axios from 'axios'
 
+
+const config = {
+  baseURL: ''
+}
+
 export async function getCards () {
-  let cards = (await axios.get('/data/card.json')).data
+  let cards = (await axios.get('/data/card.json', config)).data
   const storageCards = localStorage.getItem('cards')
 
   if (storageCards) {
@@ -36,7 +41,7 @@ export async function insertCards (card) {
 
 
 export async function getRooms () {
-  let rooms = (await axios.get('/data/room.json')).data
+  let rooms = (await axios.get('/data/room.json', config)).data
   const storageRooms = localStorage.getItem('rooms')
 
   if (storageRooms) {

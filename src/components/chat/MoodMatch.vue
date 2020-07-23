@@ -60,7 +60,7 @@
 
 <script>
 import {
-  receiveMatch, sendMatch, sendCancelMatch, removeAllListeners
+  receiveMatch, sendMatch, sendCancelMatch, recieveConnectError
 } from '@/js/websocket'
 import { mapState, mapMutations } from 'vuex'
 
@@ -112,6 +112,14 @@ export default {
           sendCancelMatch()
         })
       }
+    })
+
+    recieveConnectError(() => {
+      this.$notify({
+        message: '服务器开小差了，对话功能将暂时不能使用！',
+        type: 'warning',
+        duration: 1500
+      })
     })
   },
   methods: {

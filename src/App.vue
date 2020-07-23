@@ -38,6 +38,9 @@ export default {
     }
   },
   created () {
+    this.$axios.get('/test').then((data) => {
+      console.log(data)
+    })
     window.addEventListener('resize', this.changeRootFont)
     this.changeRootFont()
   },

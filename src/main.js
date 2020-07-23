@@ -29,6 +29,10 @@ requireComponent.keys().forEach(fileName => {
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
+const isPro = process.env.NODE_ENV === 'production'
+
+axios.defaults.baseURL = isPro ? '//47.93.15.195:3001' : 'api'
+
 new Vue({
   router,
   store,

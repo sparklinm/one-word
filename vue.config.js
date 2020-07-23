@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
@@ -53,6 +52,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
+        // target: 'http://47.93.15.195:3001', // 对应自己的接口
         target: 'http://127.0.0.1:3001', // 对应自己的接口
         changeOrigin: true,
         ws: true,
@@ -63,5 +63,14 @@ module.exports = {
     }
   },
   productionSourceMap: false,
-  publicPath: './'
+  publicPath: './',
+  pwa: {
+    iconPaths: {
+      favicon32: 'logo.png',
+      favicon16: 'logo.png',
+      appleTouchIcon: 'logo.png',
+      maskIcon: 'logo.png',
+      msTileImage: 'logo.png'
+    }
+  }
 }

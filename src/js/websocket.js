@@ -1,7 +1,11 @@
 const io = require('socket.io-client')
 // 此时会触发后台的connect事件
 // websocket 不会引起跨域
-const socket = io('ws://127.0.0.1:3001') // 建立链接
+
+const isPro = process.env.NODE_ENV === 'production'
+const socket = io(isPro ? 'ws://47.93.15.195:3001' : 'ws://127.0.0.1:3001', {
+  reconnection: false
+}) // 建立链接
 
 
 function emit (event, data) {
@@ -62,6 +66,11 @@ function sendCancelMatch (data) {
   emit('cancel-match', data)
 }
 
+function recieveConnectError (callback) {
+  on('connect_error', callback)
+}
+
+
 export {
   sendChat,
   receiveChat,
@@ -73,5 +82,6 @@ export {
   receiveGetMessages,
   sendMatch,
   receiveMatch,
-  sendCancelMatch
+  sendCancelMatch,
+  recieveConnectError
 }
