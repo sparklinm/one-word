@@ -1,0 +1,132 @@
+[
+  {
+    "id": 0,
+    "name": "天天向上一步",
+    "background": "/room/back0.jpg",
+    "total": 100,
+    "num": 3,
+    "status": "actived",
+    "notice": "1请不要在群里攻击别人\n2尊重别人",
+    "members": [
+      {
+        "id": 0,
+        "nickName": "想不想喝奶茶",
+        "head": "/user/head0.jpg",
+        "signature": "挖一个坑，种一棵树。吃一口饭，睡一天觉。"
+      },
+      {
+        "id": 1,
+        "nickName": "酒中客",
+        "head": "/user/head1.jpg",
+        "signature": "挖一个坑，种一棵树。吃一口饭，睡一天觉。"
+      },
+      {
+        "id": 2,
+        "nickName": "飞扬的小明",
+        "head": "/user/head2.jpg",
+        "signature": "挖一个坑，种一棵树。吃一口饭，睡一天觉。"
+      }
+    ],
+    "messages": [
+    ]
+  },
+  {
+    "id": 1,
+    "name": "上山打老虎",
+    "background": "/room/back1.jpg",
+    "total": 100,
+    "num": 1,
+    "status": "actived",
+    "notice": "挖一个坑，种一棵树。吃一口饭，睡一天觉。",
+    "members": [
+      {
+        "id": 0,
+        "nickName": "想不想喝奶茶",
+        "head": "/user/head0.jpg",
+        "signature": "挖一个坑，种一棵树。吃一口饭，睡一天觉。"
+      }
+    ],
+    "messages": [
+    ]
+  },
+  {
+    "id": 2,
+    "name": "沉默的羔羊",
+    "background": "/room/back2.jpg",
+    "total": 100,
+    "num": 2,
+    "status": "actived",
+    "notice": "1天天看书\n2慢慢吃饭",
+    "members": [
+      {
+        "id": 1,
+        "nickName": "酒中客",
+        "head": "/user/head1.jpg",
+        "signature": "挖一个坑，种一棵树。吃一口饭，睡一天觉。"
+      },
+      {
+        "id": 2,
+        "nickName": "飞扬的小明",
+        "head": "/user/head2.jpg",
+        "signature": "挖一个坑，种一棵树。吃一口饭，睡一天觉。"
+      }
+    ],
+    "messages": [
+    ]
+  },
+  {
+    "id": 3,
+    "name": "努力学习",
+    "background": "/room/back3.jpg",
+    "total": 100,
+    "num": 1,
+    "status": "actived",
+    "notice": "1请不要在群里攻击别人\n2尊重别人",
+    "members": [
+      {
+        "id": 4,
+        "nickName": "我是房主",
+        "head": "/user/head4.jpg",
+        "signature": "挖一个坑，种一棵树。吃一口饭，睡一天觉。"
+      }
+    ],
+    "messages": [
+    ]
+  },
+  {
+    "id": 4,
+    "name": "半夜修仙党",
+    "background": "/room/back4.jpg",
+    "total": 100,
+    "num": 1,
+    "notice": "1请不要在群里攻击别人\n2尊重别人",
+    "members": [
+      {
+        "id": 5,
+        "nickName": "玉皇大帝",
+        "head": "/user/head5.jpg",
+        "signature": "挖一个坑，种一棵树。吃一口饭，睡一天觉。"
+      }
+    ],
+    "messages": [
+    ]
+  },
+  {
+    "id": 5,
+    "name": "成都交友群",
+    "background": "/room/back5.jpg",
+    "total": 100,
+    "num": 1,
+    "notice": "1请不要在群里攻击别人\n2尊重别人",
+    "members": [
+      {
+        "id": 6,
+        "nickName": "玉皇大帝",
+        "head": "/user/head3.jpg",
+        "signature": "挖一个坑，种一棵树。吃一口饭，睡一天觉。"
+      }
+    ],
+    "messages": [
+    ]
+  }
+]
