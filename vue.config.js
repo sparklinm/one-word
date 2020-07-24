@@ -71,6 +71,19 @@ module.exports = {
       appleTouchIcon: 'logo.png',
       maskIcon: 'logo.png',
       msTileImage: 'logo.png'
-    }
+    },
+    manifestOptions: {
+      icons: [
+        {
+          src: './logo.png',
+          type: 'image/png',
+          sizes: '144x144 192x192 512x512'
+        }
+      ]
+    },
+    themeColor: '#f5f5dc',
+    msTileColor: '#000000',
+    appleMobileWebAppCapable: 'yes',
+    name: 'OneWord'
   }
 }

@@ -1,7 +1,8 @@
 const uuid = require('node-uuid')
 const dayjs = require('dayjs')
-const { server } = require('./express')
-const io = require('socket.io')(server)
+const { httpServer, httpsServer } = require('./express')
+const httpio = require('socket.io')(httpServer)
+const httpsio = require('socket.io')(httpsServer)
 
 const rooms = {}
 const matchs = []
@@ -24,135 +25,143 @@ function validatorID (id) {
   return false
 }
 
-// socket相关监听都要放在这个回调里
-io.on('connection', function (socket) {
-  socket.on('disconnect', function () {
-    cancelMatch(socket)
-  })
 
-  socket.on('chat', function (data) {
-    const roomID = data.roomID
-
-    if (!validatorID(roomID)) {
-      return
-    }
-
-    const room = rooms[roomID]
-
-    if (!room) {
-      return
-    }
-
-    room.chat(data.user, data.content, data.id)
-
-    // // 用socket.to不会发布给自己
-    // io.to(roomID).emit('chart', data)
-  })
-
-  socket.on('get-messages', function (data) {
-    const roomID = data.roomID
-
-    if (!validatorID(roomID)) {
-      return
-    }
-
-    const room = rooms[roomID]
-
-    if (!room) {
-      return
-    }
-
-    data.socket = socket
-
-    room.getMessages(data)
-  })
-
-  socket.on('match', function (data) {
-    const userID = data.user && data.user.id
-    const keys = Object.keys(data.tags)
-
-    if (!validatorID(userID)) {
-      return
-    }
-
-    const index = matchs.findIndex((item) => {
-      if (
-        (data.tags.sex === 'none' && item.tags.sex === 'none') ||
-        (item.tags.sex === 'none' && data.tags.sex === item.user.sex) ||
-        (data.tags.sex === 'none' && item.tags.sex === data.user.sex)
-      ) {
-        return keys.every((key) => {
-          return (
-            item.tags[key] === data.tags[key] && item.user.id !== data.user.id
-          )
-        })
-      }
-
-      return false
+const init = function (io) {
+  // socket相关监听都要放在这个回调里
+  io.on('connection', function (socket) {
+    socket.on('disconnect', function () {
+      cancelMatch(socket)
     })
 
-    const match = matchs[index]
+    socket.on('chat', function (data) {
+      const roomID = data.roomID
 
-    if (match) {
-      matchs.splice(index, 1)
-      // 创建临时房间
-      const tempRoomData = {
-        id: uuid.v4(),
-        name: 'temp room',
-        background: '',
-        members: [],
-        messages: []
+      if (!validatorID(roomID)) {
+        return
       }
 
-      const tempRoom = (rooms[tempRoomData.id] = new Room(tempRoomData, io))
+      const room = rooms[roomID]
 
-      // 将匹配的两个人放入房间
-      tempRoom.join(socket, data.user)
-      tempRoom.join(match.socket, match.user)
-      io.to(socket.id).emit('match', {
-        chatRoom: tempRoomData,
-        chatPerson: match.user
-      })
-      socket.to(match.socket.id).emit('match', {
-        chatRoom: tempRoomData,
-        chatPerson: data.user
-      })
-    } else {
+      if (!room) {
+        return
+      }
+
+      room.chat(data.user, data.content, data.id)
+
+      // // 用socket.to不会发布给自己
+      // io.to(roomID).emit('chart', data)
+    })
+
+    socket.on('get-messages', function (data) {
+      const roomID = data.roomID
+
+      if (!validatorID(roomID)) {
+        return
+      }
+
+      const room = rooms[roomID]
+
+      if (!room) {
+        return
+      }
+
+      data.socket = socket
+
+      room.getMessages(data)
+    })
+
+    socket.on('match', function (data) {
+      const userID = data.user && data.user.id
+      const keys = Object.keys(data.tags)
+
+      if (!validatorID(userID)) {
+        return
+      }
+
       const index = matchs.findIndex((item) => {
-        return item.user.id === data.user.id
+        if (
+          (data.tags.sex === 'none' && item.tags.sex === 'none') ||
+            (item.tags.sex === 'none' && data.tags.sex === item.user.sex) ||
+            (data.tags.sex === 'none' && item.tags.sex === data.user.sex)
+        ) {
+          return keys.every((key) => {
+            return (
+              item.tags[key] === data.tags[key] && item.user.id !== data.user.id
+            )
+          })
+        }
+
+        return false
       })
 
-      if (index === -1) {
-        matchs.push({
-          ...data,
-          socket
+      const match = matchs[index]
+
+      if (match) {
+        matchs.splice(index, 1)
+        // 创建临时房间
+        const tempRoomData = {
+          id: uuid.v4(),
+          name: 'temp room',
+          background: '',
+          members: [],
+          messages: []
+        }
+
+        const tempRoom = (rooms[tempRoomData.id] = new Room(tempRoomData, io))
+
+        // 将匹配的两个人放入房间
+        tempRoom.join(socket, data.user)
+        tempRoom.join(match.socket, match.user)
+        io.to(socket.id).emit('match', {
+          chatRoom: tempRoomData,
+          chatPerson: match.user
         })
+        socket.to(match.socket.id).emit('match', {
+          chatRoom: tempRoomData,
+          chatPerson: data.user
+        })
+      } else {
+        const index = matchs.findIndex((item) => {
+          return item.user.id === data.user.id
+        })
+
+        if (index === -1) {
+          matchs.push({
+            ...data,
+            socket
+          })
+        }
+        io.to(socket.id).emit('match', 'no_match')
       }
-      io.to(socket.id).emit('match', 'no_match')
-    }
+    })
+
+    socket.on('cancel-match', function () {
+      cancelMatch(socket)
+    })
+
+    socket.on('join', function (data) {
+      const roomID = data.room && data.room.id
+      const userID = data.user && data.user.id
+
+      if (!validatorID(roomID) || !validatorID(userID)) {
+        return
+      }
+
+      let room = rooms[roomID]
+
+      if (!room) {
+        room = rooms[roomID] = new Room(data.room, io)
+      }
+
+      room.join(socket, data.user)
+    })
   })
 
-  socket.on('cancel-match', function () {
-    cancelMatch(socket)
-  })
+}
 
-  socket.on('join', function (data) {
-    const roomID = data.room && data.room.id
-    const userID = data.user && data.user.id
+init(httpio)
+init(httpsio)
 
-    if (!validatorID(roomID) || !validatorID(userID)) {
-      return
-    }
-
-    let room = rooms[roomID]
-
-    if (!room) {
-      room = rooms[roomID] = new Room(data.room, io)
-    }
-
-    room.join(socket, data.user)
-  })
-})
 
 class Room {
   constructor (room, namespace) {

@@ -3,10 +3,15 @@ const io = require('socket.io-client')
 // websocket 不会引起跨域
 
 const isPro = process.env.NODE_ENV === 'production'
-const socket = io(isPro ? 'ws://47.93.15.195:3001' : 'ws://127.0.0.1:3001', {
+
+const url = isPro
+  ? window.location.protocol === 'http'
+    ? 'http://back.end.sparklinm.cn:3001'
+    : 'https://back.end.sparklinm.cn:3002'
+  : '127.0.0.1:3001'
+const socket = io(url, {
   reconnection: false
 }) // 建立链接
-
 
 function emit (event, data) {
   socket.emit(event, data)
@@ -21,7 +26,6 @@ function on (event, callback) {
 function removeAllListeners () {
   socket.removeAllListeners()
 }
-
 
 function sendJoinRoom (data) {
   emit('join', data)
@@ -43,7 +47,6 @@ function sendChat (data) {
 function receiveChat (callback) {
   on('chat', callback)
 }
-
 
 function sendGetMessages (data) {
   emit('get-messages', data)
@@ -69,7 +72,6 @@ function sendCancelMatch (data) {
 function recieveConnectError (callback) {
   on('connect_error', callback)
 }
-
 
 export {
   sendChat,

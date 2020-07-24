@@ -77,7 +77,7 @@ export default {
 
 <style>
 .aa {
-  color: #d34300;
+  color: #f5f5dc;
   background: transparent;
 }
 
