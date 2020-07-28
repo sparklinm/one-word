@@ -3,8 +3,8 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import axios from 'axios'
 
+import './mock'
 import './lib'
 import 'normalize.css'
 import './style/index.styl'
@@ -24,16 +24,8 @@ requireComponent.keys().forEach((fileName) => {
   Vue.component(componentName, componentConfig.default || componentConfig)
 })
 
-Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
-const isPro = process.env.NODE_ENV === 'production'
-
-axios.defaults.baseURL = isPro
-  ? window.location.protocol === 'http'
-    ? 'http://back.end.sparklinm.cn:3001'
-    : 'https://back.end.sparklinm.cn:3002'
-  : 'api'
 
 new Vue({
   router,

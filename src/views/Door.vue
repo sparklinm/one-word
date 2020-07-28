@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { getRooms } from '@/js/data'
+import { getRooms } from '@/api/data'
 import Room from '@/components/chat/Room'
 import MoodMatch from '@/components/chat/MoodMatch'
 import ChatBot from '@/components/chat/ChatBot'

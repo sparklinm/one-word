@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getRooms } from '@/js/data'
+import { getRooms } from '@/api/data'
 import { mapState } from 'vuex'
 import Chat from '@/components/chat/ChatGroup'
 

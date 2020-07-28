@@ -21,25 +21,38 @@ const client = new NlpClient(cred, 'ap-guangzhou', clientProfile)
 
 const req = new models.ChatBotRequest()
 
-module.exports = {
-  chatBot (content) {
-    return new Promise((resolve, reject) => {
-      const params = {
-        Query: content
+const express = require('express')
+
+const router = express.Router()
+
+function chatBot (content) {
+  return new Promise((resolve, reject) => {
+    const params = {
+      Query: content
+    }
+
+    req.from_json_string(JSON.stringify(params))
+
+
+    client.ChatBot(req, function (errMsg, response) {
+
+      if (errMsg) {
+        reject(errMsg)
+        return
       }
 
-      req.from_json_string(JSON.stringify(params))
-
-
-      client.ChatBot(req, function (errMsg, response) {
-
-        if (errMsg) {
-          reject(errMsg)
-          return
-        }
-
-        resolve(response.to_json_string())
-      })
+      resolve(response.to_json_string())
     })
-  }
+  })
 }
+
+
+router.get('/chat-bot', (req, res) => {
+  const query = req.query
+
+  chatBot(query.content).then((message) => {
+    res.send(message)
+  })
+})
+
+module.exports = router

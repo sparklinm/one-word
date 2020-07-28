@@ -17,7 +17,10 @@
         <div
           class="nav-inline"
         >
-          <div class="user">
+          <div
+            class="user"
+            @click="avatarClick"
+          >
             <el-avatar
               :src="user.head"
               class="user-head"
@@ -32,6 +35,7 @@
             active-text-color="#ffaf1c"
             text-color="#fff"
             background-color="#242424"
+            :default-active="defaultActive"
             @select="goPage"
           >
             <el-menu-item index="">
@@ -48,22 +52,43 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import {
+  mapState, mapActions, mapMutations
+} from 'vuex'
 
 export default {
   data () {
     return {
       showNav: true,
-      showMask: false
+      showMask: false,
+      defaultActive: ''
     }
   },
   computed: {
-    ...mapState('user', ['user'])
+    ...mapState('user', ['user', 'token'])
   },
   watch: {
-    $route () {
+    $route (to) {
+      const page = to.path.split('/')[1] || ''
+
+      if (['', 'door'].includes(page)) {
+        this.defaultActive = page
+      }
       if (this.isNarrow) {
         this.foldNav()
+      }
+    }
+  },
+  created () {
+    const token = JSON.parse(localStorage.getItem('token'))
+
+    if (token) {
+      this.setToken(token)
+    }
+    this.login()
+    window.onunload = () => {
+      if (this.token) {
+        localStorage.setItem('token', JSON.stringify(this.token))
       }
     }
   },
@@ -75,6 +100,36 @@ export default {
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
+    ...mapActions('user', {
+      login: 'login'
+    }),
+    ...mapMutations('user', {
+      setToken: 'setToken'
+    }),
+    avatarClick () {
+      const token = this.token
+
+      if (token) {
+        this.goPage('')
+      } else {
+        const ins = this.$loading({
+          lock: true,
+          text: '登录中',
+          background: 'rgba(0, 0, 0, 0.6)'
+        })
+
+        this.login({
+          username: '123',
+          password: '456'
+        }).then(() => {
+          ins.close()
+          this.$notify({
+            message: '登录成功',
+            type: 'success'
+          })
+        })
+      }
+    },
     goPage (path) {
       this.$router
         .push({
@@ -117,6 +172,7 @@ export default {
   z-index 500
   .user
     padding 0 20px
+    cursor pointer
   .nav-inline
     padding 150px 0
   .user

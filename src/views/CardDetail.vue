@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { getCards, putCards } from '@/js/data'
+import { getCards, putCards } from '@/api/data'
 import CardDetail from '@/components/card/CardDetail'
 import Comments from '@/components/comment/Comments'
 
@@ -34,6 +34,8 @@ export default {
     const id = parseInt(this.id)
     const cards = await getCards()
     const card = cards.find((card) => card.id === id)
+
+    console.log(cards)
 
     this.card = card
   },

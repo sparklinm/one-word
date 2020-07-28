@@ -3,6 +3,11 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
+  pluginOptions: {
+    webpackBundleAnalyzer: {
+      openAnalyzer: false
+    }
+  },
   configureWebpack: {
     plugins: [
       new webpack.ProvidePlugin({
@@ -25,7 +30,6 @@ module.exports = {
     //     bypassOnDebug: true
     //   })
     // 开启js、css压缩
-    config.optimization.minimize(true)
     if (process.env.NODE_ENV === 'production') {
       config.plugin('compressionPlugin')
         .use(new CompressionPlugin({
@@ -33,6 +37,7 @@ module.exports = {
           threshold: 1000, // 对超过10k的数据压缩
           deleteOriginalAssets: false // 不删除源文件
         }))
+      config.optimization.minimize(true)
       config.plugin('terser').use(
         new TerserPlugin({
           terserOptions: {

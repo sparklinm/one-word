@@ -11,7 +11,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import * as chat from '@/js/websocket'
+import * as chat from '@/api/websocket'
 
 import Chat from './Chat'
 

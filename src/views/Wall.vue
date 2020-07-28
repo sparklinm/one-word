@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { getCards } from '@/js/data'
+import { getCards } from '@/api/data'
 import { cutText, infiniteScroll } from '@/js/util'
 import Card from '@/components/card/Card'
 import ArticleItem from '@/components/article/ArticleItem'

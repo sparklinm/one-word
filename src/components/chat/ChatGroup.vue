@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import * as chat from '@/js/websocket'
+import * as chat from '@/api/websocket'
 import { mapState } from 'vuex'
 // import Editor from '@/components/Editor'
 import Chat from './Chat'

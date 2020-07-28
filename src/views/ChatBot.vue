@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { getRobotChat } from '@/js/robot'
+import { chatRobot } from '@/api/robot'
 import { mapState } from 'vuex'
 import Chat from '@/components/chat/Chat'
 
@@ -57,7 +57,7 @@ export default {
       const myMessage = this.generateMessage(this.userMessage, content)
 
       this.$refs.chat.pushMessage(myMessage)
-      getRobotChat(content).then((message) => {
+      chatRobot(content).then((message) => {
         this.$refs.chat.pushMessage(
           this.generateMessage(this.robatMessage, message.Reply)
         )

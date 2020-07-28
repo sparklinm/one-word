@@ -1,1 +1,4 @@
-require ('./socket-room.js')
+require('./socket-room.js')
+
+require('./chat-bot')
+require('./login')

@@ -6,7 +6,8 @@ const config = {
 }
 
 export async function getCards () {
-  let cards = (await axios.get('/data/card.json', config)).data
+  let cards = (await axios.get('/data/card.json', config)).data.cards
+
   const storageCards = localStorage.getItem('cards')
 
   if (storageCards) {

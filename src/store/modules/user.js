@@ -1,18 +1,46 @@
-
 const id = uuid.v4()
+
+import { login } from '@/api/login'
 
 export default {
   namespaced: true,
   state: {
     user: {
       id: id,
-      head: '/user/head0.jpg',
       sex: 'man',
-      nickName: '飞翔的荷兰猪' + id.slice(0, 12),
-      signature: '挖一个坑，种一棵树。吃一口饭，睡一天觉。'
-    }
+      nickName: '请点击登录',
+      signature: '火星人飘过~~'
+    },
+    token: ''
   },
   getters: {},
-  mutations: {},
-  actions: {}
+  mutations: {
+    setUser (state, user) {
+      state.user = user
+    },
+    setToken (state, token) {
+      state.token = token
+    },
+    deleteToken (state) {
+      state.token = ''
+    }
+  },
+  actions: {
+    async login ({ commit, state }, data) {
+      const token = state.token
+
+      if (token || (data && data.username && data.password)) {
+        const res = await login(data, token)
+
+        if (res.data) {
+          commit('setUser', res.data)
+          if (res.data.token) {
+            console.log(res.data.token)
+
+            commit('setToken', res.data.token)
+          }
+        }
+      }
+    }
+  }
 }

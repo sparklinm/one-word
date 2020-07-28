@@ -57,7 +57,7 @@
 
 <script>
 import { blobToDataURL } from '@/js/util'
-import { insertCards } from '@/js/data'
+import { insertCards } from '@/api/data'
 import { mapState } from 'vuex'
 import Editor from '@/components/Editor'
 

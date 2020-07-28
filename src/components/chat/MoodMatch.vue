@@ -61,7 +61,7 @@
 <script>
 import {
   receiveMatch, sendMatch, sendCancelMatch, recieveConnectError
-} from '@/js/websocket'
+} from '@/api/websocket'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
