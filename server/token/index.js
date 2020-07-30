@@ -6,7 +6,6 @@ const options = {
 }
 
 
-
 const generateToken = (user) => {
   const payload = {
     userID: user.id

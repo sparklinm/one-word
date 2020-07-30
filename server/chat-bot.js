@@ -10,7 +10,7 @@ const Credential = tencentcloud.common.Credential
 const ClientProfile = tencentcloud.common.ClientProfile
 const HttpProfile = tencentcloud.common.HttpProfile
 
-const cred = new Credential('AKIDVftsbRFDMG8uRofTwBGNODl5A0czl9uP', '')
+const cred = new Credential('AKID2qBIFvWU0GGArInNjgRv3zg5D5sPtnxF', '')
 const httpProfile = new HttpProfile()
 
 httpProfile.endpoint = 'nlp.tencentcloudapi.com'

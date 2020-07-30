@@ -87,9 +87,7 @@ export default {
     }
     this.login()
     window.onunload = () => {
-      if (this.token) {
-        localStorage.setItem('token', JSON.stringify(this.token))
-      }
+      localStorage.setItem('token', JSON.stringify(this.token))
     }
   },
   mounted () {

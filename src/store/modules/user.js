@@ -35,8 +35,6 @@ export default {
         if (res.data) {
           commit('setUser', res.data)
           if (res.data.token) {
-            console.log(res.data.token)
-
             commit('setToken', res.data.token)
           }
         }

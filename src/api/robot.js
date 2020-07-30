@@ -11,7 +11,7 @@ async function chatRobot (content) {
     }
   }
 
-  const res = await axios.get('/api/chat-bot', params)
+  const res = await axios.get('/chat-bot', params)
 
   return res.data
 }

@@ -27,9 +27,7 @@ yarn lint
 
 ## Demo
 
-[查看 demo 请看这里](https://one.word.sparklinm.cn)，PC 端最好使用手机模式浏览。
-
-## Screenshot
+[查看 demo 请点这里](https://one.word.sparklinm.cn)。
 
 ## Tech Stack
 
@@ -42,6 +40,8 @@ yarn lint
 - daysjs
 - socket.io
 - Element-ui
+- Mock
+- jsonwebtoken
 - tencentcloud-sdk-nodejs
 - babel
 - pwa
@@ -58,6 +58,7 @@ yarn lint
 - [x] 聊天房间
 - [x] 页面切换动画
 - [x] 移动、pc 自适应
+- [x] 登录验证
 
 ## socket.io
 
@@ -74,6 +75,61 @@ yarn lint
 ## 聊天机器人
 
 聊天机器人是使用了腾讯聊天机器人，通过 express 后端来转发用户和聊天机器人之间的消息。后端部署在阿里云服务器上。
+
+## 登录逻辑
+
+### 前端
+
+#### 登录
+
+检查本地 token 是否存在
+
+- 存在，请求用户信息
+  用户信息接口验证 token
+  - 合法
+    返回用户信息
+  - 不合法
+    返回 401
+- 不存在，调用登录接口
+  登录成功返回 token，本地存储
+
+#### 路由拦截
+
+路由如果需要登录权限
+获取本地存储的 token
+
+- 如果 token 存在
+  跳转路由
+- 不存在
+  弹出登录框（或提示前往登录页面），
+  登录成功后，跳转路由
+
+#### 请求拦截
+
+获取保存的 token，如果 token 存在，请求附带 token
+
+#### 响应拦截
+
+- 响应成功（返回 200）
+  如果返回信息中有 token，保存 token
+- 响应失败
+  如果状态码是否等于 401，提示登录过期，清除本地 token
+
+### 服务端
+
+#### 登录接口
+
+登录接口登录成功时返回 token
+
+#### 验证和刷新 token
+
+在处理请求前拦截请求，**需要登录权限**的接口验证 token
+
+- 验证成功
+  - 如果 token 满足刷新条件，创建一个新 token
+  - 处理请求成功，将新 token 一起返回
+- 验证失败
+  - 返回 401
 
 ## LICENSE
 
