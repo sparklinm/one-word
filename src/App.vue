@@ -3,15 +3,27 @@
     <Nav />
     <div class="container">
       <Banner />
-      <transition
+      <!-- <transition
         :name="transitionName"
         @after-enter="afterLeave"
         @before-leave="beforeLeave"
       >
         <router-view class="main" />
-      </transition>
+      </transition> -->
+      <router-view
+        v-slot="{ Component }"
+        class="main"
+      >
+        <transition
+          :name="transitionName"
+          @after-enter="afterLeave"
+          @before-leave="beforeLeave"
+        >
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
-    <el-backtop
+    <a-back-top
       :visibility-height="200"
     />
   </div>
@@ -44,7 +56,7 @@ export default {
     window.addEventListener('resize', this.changeRootFont)
     this.changeRootFont()
   },
-  destroyed () {
+  unmounted () {
     window.removeEventListener('resize', this.changeRootFont)
   },
   mounted () {

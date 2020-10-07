@@ -1,13 +1,13 @@
 <template>
   <main class="wall-main">
-    <el-tabs
+    <a-tabs
       v-model="activeName"
       class="tabs"
       @tab-click="changePane"
     >
-      <el-tab-pane
-        label="未来语"
-        name="first"
+      <a-tab-pane
+        key="first"
+        tab="未来语"
       >
         <div class="cards-container">
           <Card
@@ -18,10 +18,10 @@
             @click="goPage(card.id)"
           />
         </div>
-      </el-tab-pane>
-      <el-tab-pane
-        label="此刻"
-        name="second"
+      </a-tab-pane>
+      <a-tab-pane
+        key="second"
+        tab="此刻"
       >
         <div class="article-list">
           <article-item
@@ -32,16 +32,13 @@
             @click="goPage(article.id)"
           />
         </div>
-      </el-tab-pane>
-    </el-tabs>
+      </a-tab-pane>
+    </a-tabs>
     <div
       ref="loading"
       class="loading"
     >
-      <i
-        v-show="showLoading"
-        class="el-icon-loading el-icon-middle"
-      />
+      <LoadingOutlined v-show="showLoading" />
       <transition name="el-fade-in">
         <span
           v-show="showNoMoreData"
@@ -49,14 +46,13 @@
         >无更多数据</span>
       </transition>
     </div>
-    <el-collapse-transition>
-      <Icon
-        v-show="showIconCreat"
-        name="pen"
-        class="icon-creat el-icon-big"
-        @click="goCreatPage"
-      />
-    </el-collapse-transition>
+    <Icon
+      v-show="showIconCreat"
+      name="pen"
+      class="icon-creat"
+      style="font-size: 36px"
+      @click="goCreatPage"
+    />
   </main>
 </template>
 
@@ -65,6 +61,7 @@ import { getCards } from '@/api/data'
 import { cutText, infiniteScroll } from '@/js/util'
 import Card from '@/components/card/Card'
 import ArticleItem from '@/components/article/ArticleItem'
+
 
 export default {
   components: {
@@ -125,11 +122,10 @@ export default {
             this.$refs.loading.style.opacity = 0
           }, 1000)
         })
-
       }
     })
   },
-  destroyed () {
+  unmounted () {
     this.infiniteScroll.destory()
   },
   methods: {

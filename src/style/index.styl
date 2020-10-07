@@ -85,42 +85,16 @@ pre
   height 100%
   width 100%
 
-.el-loading-small
-  .el-loading-spinner .circular
-    height 14px
-    width 14px
-  .el-loading-spinner .path
-    stroke $gray
-  .el-loading-spinner .el-loading-text
-    color $gray
-    font-size 12px
-    margin 0
-
-.el-message-bottom
-  top auto !important
-  bottom 40px
-  background #fff
-  &.el-message-fade-enter, &.el-message-fade-leave-active
-    -webkit-transform translate(-50%, 100%)
-    transform translate(-50%, 100%)
-
-.el-icon-middle
-  font-size 24px
-
-.el-icon-big
-  font-size 36px
-
-.el-select-dropdown__item.selected
-  color #FF9966
-
-.el-select .el-input.is-focus .el-input__inner, .el-select .el-input__inner:focus
-  border-color #FF9966
-
 .hover-big
   &:hover
     cursor pointer
     transform scale(1.03)
     transition all 0.3s ease
+
+.ant-badge-count-info
+  .ant-badge-count
+    background: #409eff
+
 
 @import './mobile.styl'
 @import './chat.styl'

@@ -10,7 +10,7 @@
         class="comment-item"
       >
         <div class="comment-head">
-          <el-avatar
+          <a-avatar
             :src="comment.head"
             class="user-head"
             :size="30"
@@ -58,6 +58,7 @@ export default {
       )
     }
   },
+  emits: ['add'],
   data () {
     return {}
   },

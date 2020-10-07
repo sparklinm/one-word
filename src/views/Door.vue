@@ -8,10 +8,10 @@
       <div class="title">
         聊天房间
       </div>
-      <el-row
+      <a-row
         :gutter="20"
       >
-        <el-col
+        <a-col
           v-for="(room, index) in rooms"
           :key="index"
           class="col-room"
@@ -24,10 +24,10 @@
 
             class="chat-rooms-item"
             :room="room"
-            @click.native="goPage(room.id)"
+            @click="goPage(room.id)"
           />
-        </el-col>
-      </el-row>
+        </a-col>
+      </a-row>
     </div>
   </main>
 </template>

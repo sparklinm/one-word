@@ -7,7 +7,7 @@
       @get-history-message="getHistoryMessage"
       @change="handleChange"
     >
-      <template v-slot:notice>
+      <template #notice>
         <div>
           <div
             v-if="showRoomInfo"
@@ -63,7 +63,7 @@
           </span>
           <span>
             {{ `查看${room.num}/${room.total}名房间成员` }}
-            <i class="el-icon-arrow-right" />
+            <RightOutlined />
           </span>
         </div>
         <div class="members-list">
@@ -72,7 +72,7 @@
             :key="member.id"
             class="members-item"
           >
-            <el-avatar
+            <a-avatar
               :src="member.head"
               :size="46"
             />
@@ -93,12 +93,10 @@
 <script>
 import * as chat from '@/api/websocket'
 import { mapState } from 'vuex'
-// import Editor from '@/components/Editor'
 import Chat from './Chat'
 
 export default {
   components: {
-    // Editor,
     Chat
   },
   props: {
@@ -153,7 +151,7 @@ export default {
       }, 1000)
     })
   },
-  beforeDestroy () {
+  beforeUnmount () {
     chat.removeAllListeners()
   },
   methods: {
@@ -251,8 +249,6 @@ export default {
     .members-head
       display flex
       justify-content space-between
-    .el-icon-arrow-right
-      font-weight bold
     .members-item
       display inline-block
       margin-right 15px

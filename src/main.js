@@ -1,9 +1,7 @@
-import Vue from 'vue'
-import App from './App.vue'
+import app from './app'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-
 import './mock'
 import './lib'
 import 'normalize.css'
@@ -21,14 +19,12 @@ requireComponent.keys().forEach((fileName) => {
     .replace(/\.\w+$/, '')
 
   // 全局注册组件
-  Vue.component(componentName, componentConfig.default || componentConfig)
+  app.component(componentName, componentConfig.default || componentConfig)
 })
 
-Vue.config.productionTip = false
 
+app.use(router)
+app.use(store)
+app.mount('#app')
 
-new Vue({
-  router,
-  store,
-  render: (h) => h(App)
-}).$mount('#app')
+export default app

@@ -1,9 +1,6 @@
 <template>
   <div>
-    <i
-      class="el-icon-s-unfold btn-unfold-nav"
-      @click="unFoldNav"
-    />
+    <MenuUnfoldOutlined @click="unFoldNav" />
     <div
       v-show="showMask"
       class="mask"
@@ -21,7 +18,7 @@
             class="user"
             @click="avatarClick"
           >
-            <el-avatar
+            <a-avatar
               :src="user.head"
               class="user-head"
               :size="100"
@@ -30,21 +27,22 @@
               <span class="nickname">{{ user.nickName }}</span>
             </div>
           </div>
-          <el-menu
+          <a-menu
             mode="vertical"
             active-text-color="#ffaf1c"
             text-color="#fff"
             background-color="#242424"
+            theme="dark"
             :default-active="defaultActive"
-            @select="goPage"
+            @select="menuClick"
           >
-            <el-menu-item index="">
+            <a-menu-item key="">
               墙
-            </el-menu-item>
-            <el-menu-item index="door">
+            </a-menu-item>
+            <a-menu-item key="door">
               传送门
-            </el-menu-item>
-          </el-menu>
+            </a-menu-item>
+          </a-menu>
         </div>
       </nav>
     </transition>
@@ -94,7 +92,7 @@ export default {
     this.handleResize()
     window.addEventListener('resize', this.handleResize)
   },
-  destroyed () {
+  unmounted () {
     window.removeEventListener('resize', this.handleResize)
   },
   methods: {
@@ -110,23 +108,22 @@ export default {
       if (token) {
         this.goPage('')
       } else {
-        const ins = this.$loading({
-          lock: true,
-          text: '登录中',
-          background: 'rgba(0, 0, 0, 0.6)'
-        })
+        const hide = this.$message.loading('登录中', 0)
 
         this.login({
           username: '123',
           password: '456'
         }).then(() => {
-          ins.close()
-          this.$notify({
-            message: '登录成功',
-            type: 'success'
+          hide()
+          this.$notification.success({
+            description: '登录成功',
+            duration: 1.5
           })
         })
       }
+    },
+    menuClick ({ key }) {
+      this.goPage(key)
     },
     goPage (path) {
       this.$router
@@ -178,15 +175,12 @@ export default {
     text-align center
   .user-head
     margin-bottom 10px
-  .el-menu
-    background transparent
-    border-right: none;
-  .el-menu-item
-    padding 0 30px
-  .el-menu-item.is-active
-    background black !important
-    border-left 4px solid #ffaf1c
-
+  .ant-menu
+    background-color #242424
+    .ant-menu-item
+      color #fff
+    .ant-menu-item-active
+      color #ffaf1c !important
 .btn-unfold-nav
   font-size 26px
   padding 20px

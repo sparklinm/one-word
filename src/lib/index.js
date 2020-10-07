@@ -1,3 +1,3 @@
-import './element-ui'
+import './ant-design'
 import './dayjs'
 import './axios'

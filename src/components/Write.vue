@@ -1,57 +1,64 @@
 <template>
   <div class="write">
     <div class="write-inline">
-      <el-row :gutter="3">
-        <el-col :span="3">
-          <el-avatar
+      <a-row :gutter="3">
+        <a-col :span="3">
+          <a-avatar
             :src="user.head"
             :size="50"
             class="user-head"
           />
-        </el-col>
-        <el-col
+        </a-col>
+        <a-col
           :span="21"
           class="write-box-contianer"
         >
           <Editor
             v-model="content"
             class="write-box"
-            :autosize="{ minRows: 5, maxRows: 20 }"
+            :auto-size="{ minRows: 5, maxRows: 20 }"
             :placeholder="placeholder"
           />
 
           <div class="upload-container">
-            <el-upload
+            <a-upload
               ref="upload"
               action="#"
               list-type="picture-card"
-              :on-preview="handlePictureCardPreview"
-              :on-change="hanldeSuccess"
-              :auto-upload="false"
               multiple
               :limit="9"
+              :before-upload="beforeUpload"
+              @review="handlePictureCardPreview"
             >
-              <i class="el-icon-plus" />
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
+              <PlusOutlined />
+            </a-upload>
+            <a-modal
+              :visible="dialogVisible"
+              :footer="null"
+            >
               <img
                 width="100%"
                 :src="dialogImageUrl"
                 alt=""
               >
-            </el-dialog>
+            </a-modal>
           </div>
-        </el-col>
-      </el-row>
+        </a-col>
+      </a-row>
     </div>
     <div class="ops">
-      <el-button
+      <a-button
         type="primary"
         @click="confirm"
       >
         发出
-      </el-button>
+      </a-button>
     </div>
+
+    <Loading
+      v-model:visible="showLoading"
+      :text="loadingText"
+    />
   </div>
 </template>
 
@@ -60,10 +67,12 @@ import { blobToDataURL } from '@/js/util'
 import { insertCards } from '@/api/data'
 import { mapState } from 'vuex'
 import Editor from '@/components/Editor'
+import Loading from '@/components/Loading'
 
 export default {
   components: {
-    Editor
+    Editor,
+    Loading
   },
   data () {
     return {
@@ -71,7 +80,10 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       imgs: [],
-      content: ''
+      content: '',
+      fileList: [],
+      showLoading: false,
+      loadingText: '发布中'
     }
   },
   computed: {
@@ -82,27 +94,30 @@ export default {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     },
-    hanldeSuccess () {},
+    beforeUpload (file) {
+      this.fileList = [...this.fileList, file]
+      return false
+    },
     confirm () {
       if (!this.content.match(/\S/)) {
-        this.$notify({
-          title: '提示',
-          message: '请先输入内容。',
-          type: 'warning',
-          duration: 1500
+        this.$notification.warning({
+          message: '提示',
+          description: '请先输入内容。',
+          duration: 1.5
         })
         return
       }
       const imgs = []
       const promiseArr = []
 
-      this.$refs.upload.uploadFiles.forEach((item) => {
+      this.fileList.forEach((item) => {
         promiseArr.push(
-          blobToDataURL(item.raw).then((dataURL) => {
+          blobToDataURL(item).then((dataURL) => {
             imgs.push(dataURL)
           })
         )
       })
+
 
       Promise.all(promiseArr).then(() => {
         const word = {
@@ -114,20 +129,18 @@ export default {
         }
 
         word.id = dayjs(word.date).valueOf()
-
         insertCards(word)
 
-        const loadingIns = this.$loading({
-          lock: true,
-          text: '发布中'
-        })
-
+        this.showLoading = true
         setTimeout(() => {
-          loadingIns.close()
-          this.$alert('发布成功').then(() => {
-            this.$router.push({
-              path: '/'
-            })
+          this.showLoading = false
+          this.$info({
+            content: '发布成功',
+            onOk: () => {
+              this.$router.push({
+                path: '/'
+              })
+            }
           })
         }, 3000)
       })

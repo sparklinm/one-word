@@ -1,7 +1,7 @@
 <template>
   <div class="article-item">
     <div class="item-header">
-      <el-avatar
+      <a-avatar
         :src="article.head"
         class="user-head"
       />
@@ -30,14 +30,11 @@
         style="cursor:pointer"
         @click="toggleContent"
       >
-        <i
+        <DownOutlined
           v-show="showIconExpand"
-          class="el-icon-arrow-down"
         />
-
-        <i
+        <UpOutlined
           v-show="showIconShrink"
-          class="el-icon-arrow-up"
         />
       </div>
       <div
@@ -49,12 +46,12 @@
           :key="img"
           class="cm-img-list_item-area"
         >
-          <el-image
+          <img
             :src="img"
             alt
             :preview-src-list="article.imgs"
             class="cm-img-list_item-container"
-          />
+          >
         </div>
       </div>
     </div>
@@ -62,13 +59,13 @@
       class="item-foot"
       @click="$emit('click')"
     >
-      <el-badge
-        :value="article.comments.length"
-        :max="99"
-        type="info"
+      <a-badge
+        :count="article.comments.length"
+        :show-zero="true"
+        class="ant-badge-count-info"
       >
-        <i class="el-icon-chat-square el-icon-middle" />
-      </el-badge>
+        <MessageOutlined style="font-size:24px" />
+      </a-badge>
     </div>
   </div>
 </template>
@@ -86,6 +83,7 @@ export default {
       })
     }
   },
+  emits: ['click'],
   data () {
     return {
       contentStyle: {},
@@ -99,7 +97,7 @@ export default {
     this.contentHeight()
     window.addEventListener('resize', this.contentHeight)
   },
-  destroyed () {
+  unmounted () {
     window.removeEventListener('resize', this.contentHeight)
   },
   methods: {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Vue from 'vue'
+import app from '@/app'
 import store from '@/store'
 
 const isPro = process.env.NODE_ENV === 'production'
@@ -52,9 +52,8 @@ axios.interceptors.response.use(function (response) {
         nickName: '请点击登录',
         signature: '火星人飘过~~'
       })
-      Vue.prototype.$notify({
-        message: '登录已过期',
-        type: 'warning'
+      app.config.globalProperties.$notification.warning({
+        description: '登录已过期'
       })
       store.commit('user/deleteToken')
     }
@@ -63,5 +62,4 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error)
 })
 
-
-Vue.prototype.$axios = axios
+app.config.globalProperties.$axios = axios

@@ -15,12 +15,17 @@
             ref="messageList"
             class="chat-box-body-inline"
           >
-            <div
-              ref="history"
-              class="history"
+            <a-spin
+              :spinning="spinning"
+              :tip="spinningTip"
             >
-              历史消息
-            </div>
+              <div
+                ref="history"
+                class="history"
+              >
+                历史消息
+              </div>
+            </a-spin>
             <slot name="notice" />
 
             <div class="chat-contents">
@@ -34,7 +39,7 @@
                   class="chat-item"
                 >
                   <div class="item-head-left">
-                    <el-avatar
+                    <a-avatar
                       :src="message.head"
                       :size="46"
                     />
@@ -62,17 +67,18 @@
                     </div>
 
                     <div class="item-content-container-right">
-                      <i
+                      <LoadingOutlined
                         v-if="message.loading"
-                        class="el-icon-loading"
+                        style="margin-right:10px"
                       />
+
                       <div class="item-content item-content-right">
                         <pre>{{ message.content }}</pre>
                       </div>
                     </div>
                   </div>
                   <div class="item-head-right">
-                    <el-avatar
+                    <a-avatar
                       :src="message.head"
                       :size="46"
                     />
@@ -83,7 +89,7 @@
                   v-else-if="message.type === 'system'"
                   class="chat-item-system text-gray"
                 >
-                  {{ message.user.nickName | cutText(10) }}
+                  {{ cutText(message.user.nickName) }}
                   {{ action2Text[message.action] }}
                 </div>
               </div>
@@ -105,8 +111,8 @@
           v-model="content"
           class="editor"
           :rows="4"
-          @keydown.enter.exact.native.prevent
-          @keyup.enter.exact.native="send"
+          @keydown.enter.exact.prevent
+          @keyup.enter.exact="send"
         />
       </div>
     </div>
@@ -134,17 +140,13 @@ export default {
   components: {
     Editor
   },
-  filters: {
-    cutText: function (value, length) {
-      return cutText(value, length)
-    }
-  },
   props: {
     chat: {
       type: Object,
       default: () => ({})
     }
   },
+  emits: ['get-history-message', 'send', 'change'],
   data () {
     return {
       content: '',
@@ -153,7 +155,9 @@ export default {
       action2Text: {
         join: '加入了房间',
         leave: '离开了房间'
-      }
+      },
+      spinning: false,
+      spinningTip: '获取更多消息中'
     }
   },
   computed: {
@@ -168,6 +172,7 @@ export default {
     this.max = 5
   },
   methods: {
+    cutText: cutText,
     send () {
       if (this.content === '') {
         return
@@ -203,7 +208,7 @@ export default {
       this.$nextTick(() => {
         // $firstMessage.scrollIntoView()
         keepScrollContent(this.$refs.body, oScrollHeight)
-        this.lodaingIns.close()
+        this.spinning = false
       })
     },
     receiveChat (data) {
@@ -225,12 +230,7 @@ export default {
     },
     handleScroll () {
       if (this.$refs.body.scrollTop === 0) {
-        this.lodaingIns = this.$loading({
-          target: this.$refs.history,
-          fullscreen: false,
-          text: '获取更多消息中',
-          customClass: 'el-loading-small'
-        })
+        this.spinning = true
 
         this.$emit('get-history-message')
         return
@@ -304,8 +304,6 @@ body-height = box-height - head-height - 97px
     display flex
     justify-content: flex-end
     align-items center
-    .el-icon-loading
-      margin-right 10px
   .item-head-right
     margin-left 10px
   .item-body-left
@@ -336,7 +334,4 @@ body-height = box-height - head-height - 97px
     left 0
     right 0
     bottom 0
-  .editor
-    width 100%
-    height 100%
 </style>

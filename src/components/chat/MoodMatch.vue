@@ -5,17 +5,19 @@
     </div>
     <div class="sex">
       <span>匹配性别：</span>
-      <el-select
-        v-model="value"
+      <a-select
+        v-model:value="value"
         placeholder=""
+        style="width: 150px"
       >
-        <el-option
+        <a-select-option
           v-for="item in sexOptions"
           :key="item.value"
-          :label="item.label"
           :value="item.value"
-        />
-      </el-select>
+        >
+          {{ item.label }}
+        </a-select-option>
+      </a-select>
     </div>
 
     <div class="select-mood">
@@ -94,31 +96,32 @@ export default {
   created () {
     receiveMatch((data) => {
       if (data === 'no_match') {
-        this.$message({
-          dangerouslyUseHTMLString: true,
-          type: 'warning',
+        this.$message.warning({
           message: '<p>暂时没有和你同心情的人在匹配哦~</p><p>已在后台匹配，匹配成功将会通知。</p>'
         })
       } else {
         this.setChatPerson(data.chatPerson)
         this.setChatRoom(data.chatRoom)
-        this.$confirm('匹配成功是否前往聊天~', {
-          type: 'success'
-        }).then(() => {
-          this.$router.push({
-            path: `/chat-one/${data.chatPerson.id}`
-          })
-        }).catch(() => {
-          sendCancelMatch()
+
+        this.$confirm({
+          title: '',
+          content: '匹配成功是否前往聊天~',
+          onOk () {
+            this.$router.push({
+              path: `/chat-one/${data.chatPerson.id}`
+            })
+          },
+          onCancel () {
+            sendCancelMatch()
+          }
         })
       }
     })
 
     recieveConnectError(() => {
-      this.$notify({
-        message: '服务器开小差了，对话功能将暂时不能使用！',
-        type: 'warning',
-        duration: 1500
+      this.$notification.warning({
+        description: '服务器开小差了，对话功能将暂时不能使用！',
+        duration: 1.5
       })
     })
   },
@@ -129,21 +132,16 @@ export default {
         happy: '拥有高兴心情的人中...',
         sad: '心情不好的人中...'
       }
-      const ins = this.$loading({
-        text: '匹配中' + mod2text[mood],
-        background: 'rgba(0, 0, 0, 0.6)'
-      })
+      const hide = this.$message.loading('匹配中' + mod2text[mood], 0)
 
-      setTimeout(() => {
-        sendMatch({
-          tags: {
-            mood,
-            sex: this.value
-          },
-          user: this.user
-        })
-        ins.close()
-      }, 3000)
+      sendMatch({
+        tags: {
+          mood,
+          sex: this.value
+        },
+        user: this.user
+      })
+      setTimeout(hide, 2500)
     }
   }
 }

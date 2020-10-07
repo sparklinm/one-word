@@ -20,12 +20,11 @@
       </div>
 
 
-      <el-image
+      <img
         v-show="show"
         class="banner-img"
-        fit="contain"
         :src="require('../assets/banner.png')"
-      />
+      >
     </div>
   </div>
 </template>
@@ -72,6 +71,7 @@ export default {
   box-sizing border-box
   .banner-inline
     max-width 1200px;
+    height 100%
     margin 0 auto
     display flex
     align-items  center
@@ -80,6 +80,7 @@ export default {
     height 100%
     width 30%
     max-width 220px
+    object-fit contain
   .banner-img-con
     text-align right
   .banner-title

@@ -8,12 +8,12 @@
       placeholder="写下你想对作者说的话。"
     />
     <div class="ops">
-      <el-button
+      <a-button
         type="primary"
         @click="confirm"
       >
         确定
-      </el-button>
+      </a-button>
     </div>
   </div>
 </template>
@@ -27,6 +27,7 @@ export default {
   components: {
     Editor
   },
+  emits: ['add'],
   data () {
     return {
       content: ''

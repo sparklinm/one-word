@@ -1,7 +1,7 @@
 <template>
   <div class="card-detail">
     <div class="card-detail-head">
-      <el-avatar
+      <a-avatar
         :src="card.head"
         class="user-head"
       />
@@ -20,12 +20,12 @@
           :key="img"
           class="img-item-contianer cm-img-list_item-area"
         >
-          <el-image
+          <img
             :src="img"
             class="img-item cm-img-list_item-container"
             fit="cover"
             :preview-src-list="[img]"
-          />
+          >
         </div>
       </div>
     </div>

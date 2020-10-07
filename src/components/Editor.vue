@@ -1,37 +1,37 @@
 <template>
-  <div class="write-box">
-    <el-input
-      v-model="input"
-      v-bind="$attrs"
-      resize="none"
-      type="textarea"
-      @input="handleInput"
-    />
-  </div>
+  <a-textarea
+    v-model:value="input"
+    v-bind="$attrs"
+    resize="none"
+    class="write-box"
+    type="textarea"
+    @input="handleInput"
+  />
 </template>
 
 <script>
 export default {
   inheritAttrs: false,
   props: {
-    value: {
+    modelValue: {
       type: [Number, String],
       default: ''
     }
   },
+  emits: ['update:modelValue'],
   data () {
     return {
       input: this.value
     }
   },
   watch: {
-    value (val) {
+    modelValue (val) {
       this.input = val
     }
   },
   methods: {
     handleInput () {
-      this.$emit('input', this.input)
+      this.$emit('update:modelValue', this.input)
     },
     clear () {
       this.input = ''
@@ -42,29 +42,24 @@ export default {
 </script>
 
 <style lang="stylus">
-
 @import "~@/style/mixins.styl"
-
 placeholder-color = #707070
 
 .write-box
-  background transparent
-  border none
-  resize none
-  outline none
   box-sizing border-box
-  display inline-block
+  width 100%
+  height 100%
   line-height 20px
-  .el-textarea__inner
-    border none
-    outline none
-    background transparent
-    &::-webkit-input-placeholder
-      color placeholder-color
-    &::-moz-placeholder
-      color placeholder-color
-    &:-moz-placeholder
-      color placeholder-color
-    &:-ms-input-placeholder
-      color placeholder-color
+  border none
+  outline none
+  resize none
+  background transparent
+  &::-webkit-input-placeholder
+    color placeholder-color
+  &::-moz-placeholder
+    color placeholder-color
+  &:-moz-placeholder
+    color placeholder-color
+  &:-ms-input-placeholder
+    color placeholder-color
 </style>

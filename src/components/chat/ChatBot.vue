@@ -7,12 +7,12 @@
       class="room"
       @click="toChatBot"
     >
-      <el-image
+      <img
         style="width: 100%; height: 100%"
         :src="require('../../assets/chat-bot.jpg')"
         fit="cover"
         class="room-background"
-      />
+      >
       <div class="room-mask" />
       <div class="room-inline">
         <div class="room-name">

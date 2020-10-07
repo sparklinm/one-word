@@ -1,10 +1,9 @@
 <template>
   <div
     class="card"
-    @click="$emit('click')"
   >
     <div class="card-head">
-      <el-avatar
+      <a-avatar
         :src="card.head"
         class="user-head"
       />
@@ -15,21 +14,21 @@
       <div
         v-if="card.cover"
       >
-        <el-image
+        <img
           :src="card.cover"
           class="card-cover"
           alt
-        />
+        >
       </div>
     </div>
     <div class="card-footer">
-      <el-badge
-        :value="card.commentsNum"
-        :max="99"
-        type="info"
+      <a-badge
+        :count="card.commentsNum"
+        :show-zero="true"
+        class="ant-badge-count-info"
       >
-        <i class="el-icon-chat-square card-op" />
-      </el-badge>
+        <MessageOutlined style="font-size:24px" />
+      </a-badge>
     </div>
   </div>
 </template>

@@ -24,7 +24,7 @@
         </span>
       </div>
       <div class="room-members">
-        <el-avatar
+        <a-avatar
           v-for="(member,index) in room.members.slice(0,4)"
           :key="index"
           :src="member.head"

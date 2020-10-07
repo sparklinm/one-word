@@ -39,7 +39,7 @@ export default {
 
     this.card = card
   },
-  beforeDestroy () {
+  beforeUnmount () {
 
     // 临时的处理
     if (this.id > 100) {

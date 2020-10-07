@@ -1,9 +1,6 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '@/store'
 import Wall from '../views/Wall.vue'
-
-Vue.use(VueRouter)
 
 const routes = [
   {
@@ -67,7 +64,8 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHashHistory(),
   routes
 })
 
@@ -87,13 +85,20 @@ router.beforeEach((to, from, next) => {
       //     redirect: to.fullPath
       //   }
       // })
-      Vue.prototype.$confirm('检查到您未登录，是否立即登录').then(() => {
-        store.dispatch('user/login', {
-          username: '123',
-          password: '456'
-        }).then(() => {
-          next()
-        })
+
+      this.$confirm({
+        title: '',
+        content: '检查到您未登录，是否立即登录~',
+        onOk () {
+          store.dispatch('user/login', {
+            username: '123',
+            password: '456'
+          }).then(() => {
+            next()
+          })
+        },
+        onCancel () {
+        }
       })
     }
   } else {

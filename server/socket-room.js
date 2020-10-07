@@ -195,6 +195,7 @@ class Room {
 
   join (socket, user) {
     if (this.userInRoom(user)) {
+      socket.join(this.id)
       const params = {
         user,
         action: 'enter',
