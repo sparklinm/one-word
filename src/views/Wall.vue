@@ -6,7 +6,7 @@
       @tab-click="changePane"
     >
       <a-tab-pane
-        key="first"
+        key="card"
         tab="未来语"
       >
         <div class="cards-container">
@@ -20,12 +20,13 @@
         </div>
       </a-tab-pane>
       <a-tab-pane
-        key="second"
+        key="article"
         tab="此刻"
       >
         <div class="article-list">
           <article-item
             v-for="(article, index) in articles"
+            :ref="el => { if (el) articleEls[index] = el }"
             :key="index"
             class="wall-article-item"
             :article="article"
@@ -35,7 +36,7 @@
       </a-tab-pane>
     </a-tabs>
     <div
-      ref="loading"
+      ref="elLoading"
       class="loading"
     >
       <LoadingOutlined v-show="showLoading" />
@@ -47,7 +48,6 @@
       </transition>
     </div>
     <Icon
-      v-show="showIconCreat"
       name="pen"
       class="icon-creat"
       style="font-size: 36px"
@@ -57,112 +57,185 @@
 </template>
 
 <script>
-import { getCards } from '@/api/data'
-import { cutText, infiniteScroll } from '@/js/util'
 import Card from '@/components/card/Card'
 import ArticleItem from '@/components/article/ArticleItem'
+import { getCards } from '@/api/data'
+import { cutText, infiniteScroll } from '@/js/util'
+import {
+  ref, reactive, onUnmounted, computed, nextTick
+} from 'vue'
+import { useRouter } from 'vue-router'
 
+
+async function cardsPiece () {
+  const allCards = reactive(await getCards())
+  let someCards = allCards.slice(0, 10)
+
+  const loadCards = function () {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (someCards.length === allCards.length) {
+          reject()
+          return
+        }
+        someCards = allCards.slice(0, someCards.length + 10)
+        resolve()
+      }, 2000)
+    })
+  }
+
+  const initCards = function () {
+    someCards = allCards.slice(0, 10)
+  }
+
+  const cards = computed(() => {
+    return someCards.map(card => ({
+      id: card.id,
+      nickName: card.nickName,
+      head: card.head,
+      content: cutText(card.content, 100),
+      cover: card.imgs[0],
+      commentsNum: (card.comments && card.comments.length) || 0
+    }))
+  })
+
+  return {
+    allCards,
+    someCards,
+    loadCards,
+    cards,
+    initCards
+  }
+}
+
+
+async function articlesPiece () {
+  const allArticles = reactive(await getCards())
+  let someArticles = allArticles.slice(0, 10)
+
+  const loadArticles = function () {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (someArticles.length === allArticles.length) {
+          reject()
+          return
+        }
+        someArticles = allArticles.slice(0, someArticles.length + 10)
+        resolve()
+      }, 2000)
+    })
+  }
+
+  const initArticles = function () {
+    someArticles = allArticles.slice(0, 10)
+  }
+
+  return {
+    allArticles,
+    loadArticles,
+    articles: someArticles,
+    initArticles
+  }
+}
+
+
+function loadOnSrcoll (loadCards, loadArticles) {
+  let ins = null
+  const elLoading = ref(null)
+  const showLoading = ref(false)
+  const showNoMoreData = ref(false)
+  const type = ref('card')
+
+  const loadData = computed(() => {
+    return type.value === 'card' ? loadCards : loadArticles
+  })
+
+  ins = infiniteScroll({
+    callback: () => {
+      elLoading.value.style.opacity = 1
+      showLoading.value = true
+      loadData.value()
+        .then(() => {
+          showLoading.value = false
+          elLoading.value.style.opacity = 0
+        })
+        .catch(() => {
+          showNoMoreData.value = true
+          showLoading.value = false
+          setTimeout(() => {
+            showNoMoreData.value = false
+            elLoading.value.style.opacity = 0
+          }, 1000)
+        })
+    }
+  })
+
+  onUnmounted(() => {
+    ins.destory()
+  })
+
+  return {
+    ins,
+    type,
+    elLoading,
+    showLoading,
+    showNoMoreData
+  }
+}
 
 export default {
   components: {
     Card,
     ArticleItem
   },
-  data () {
-    return {
-      activeName: 'first',
-      showIconCreat: false,
-      showLoading: false,
-      showNoMoreData: false,
-      someCards: [],
-      allCards: []
-    }
-  },
-  computed: {
-    cards () {
-      return this.someCards.map(card => {
-        return {
-          id: card.id,
-          nickName: card.nickName,
-          head: card.head,
-          content: cutText(card.content, 100),
-          cover: card.imgs[0],
-          commentsNum: card.comments && card.comments.length || 0
-        }
-      })
-    },
-    articles () {
-      return this.someCards.concat()
-    }
-  },
-  async beforeCreate () {
-    const cards = await getCards()
+  async setup () {
+    const activeName = ref('first')
+    const router = useRouter()
+    const articleEls = reactive([])
+    const { cards, loadCards, initCards } = await cardsPiece()
+    const { articles, loadArticles, initArticles } = await articlesPiece()
+    const { type, elLoading, showLoading, showNoMoreData } = loadOnSrcoll(loadCards, loadArticles)
 
-    this.allCards = cards
-    this.someCards = cards.slice(0, 10)
-  },
-
-  mounted () {
-    setTimeout(() => {
-      this.showIconCreat = true
-    }, 700)
-
-    this.infiniteScroll = infiniteScroll({
-      callback: () => {
-        this.$refs.loading.style.opacity = 1
-        this.showLoading = true
-        this.loadCards().then(() => {
-          this.showLoading = false
-          this.$refs.loading.style.opacity = 0
-        }).catch(() => {
-          this.showNoMoreData = true
-          this.showLoading = false
-          setTimeout(() => {
-            this.showNoMoreData = false
-            this.$refs.loading.style.opacity = 0
-          }, 1000)
-        })
-      }
-    })
-  },
-  unmounted () {
-    this.infiniteScroll.destory()
-  },
-  methods: {
-    loadCards () {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          if (this.someCards.length === this.allCards.length) {
-            reject()
-            return
-          }
-          this.someCards = this.allCards.slice(0, this.someCards.length + 10)
-          resolve()
-        }, 2000)
-      })
-    },
-    goPage (id) {
-      this.$router
+    function goPage (id) {
+      router
         .push({
           path: `/card/${id}`
         })
-        .catch((err) => err)
-    },
-    goCreatPage () {
-      this.$router
+        .catch(err => err)
+    }
+    function goCreatPage () {
+      router
         .push({
           path: '/creat'
         })
-        .catch((err) => err)
-    },
-    changePane (vue) {
-      this.someCards = this.allCards.slice(0, 10)
-      if (vue.name === 'second') {
-        this.$nextTick(() => {
-          vue.$children.forEach(item => item.contentHeight())
+        .catch(err => err)
+    }
+    function changePane (name) {
+      type.value = name
+      if (name === 'card') {
+        initCards()
+      } else if (name === 'article') {
+        initArticles()
+        nextTick(() => {
+          articleEls.forEach(item => {
+            item.contentHeight()
+          })
         })
       }
+    }
 
+    return {
+      activeName,
+      elLoading,
+      articleEls,
+      showLoading,
+      showNoMoreData,
+      cards,
+      articles,
+      loadCards,
+      goPage,
+      goCreatPage,
+      changePane
     }
   }
 }
@@ -196,6 +269,4 @@ export default {
   //   transition all 0.3s ease
   // .icon-creat-leave-to
   // .icon-creat-enter
-
-
 </style>
