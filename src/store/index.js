@@ -1,8 +1,8 @@
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 import user from './modules/user'
 import chat from './modules/chat'
 
-export default Vuex.createStore({
+export default createStore({
   modules: {
     user,
     chat

@@ -1,5 +1,8 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    ref="root"
+  >
     <Nav />
     <div class="container">
       <Banner />
@@ -14,68 +17,87 @@
         v-slot="{ Component }"
         class="main"
       >
-        <transition
-          :name="transitionName"
-          @after-enter="afterLeave"
-          @before-leave="beforeLeave"
-        >
-          <component :is="Component" />
+        <transition :name="transitionName">
+          <Suspense>
+            <component :is="Component" />
+          </Suspense>
         </transition>
       </router-view>
     </div>
-    <a-back-top
-      :visibility-height="200"
-    />
+    <a-back-top :visibility-height="200" />
   </div>
 </template>
 
 <script>
 import Nav from '@/components/nav/Nav'
 import Banner from '@/components/Banner'
+import {
+  ref,
+  reactive,
+  watch,
+  onMounted,
+  onUnmounted,
+  getCurrentInstance
+} from 'vue'
+import axios from 'axios'
+import mitt from 'mitt'
+import { useRoute } from 'vue-router'
+
+const emitter = mitt()
+
+function rootFont () {
+  const changeRootFont = function () {
+    let rootFont = (document.body.clientWidth / 768) * 100
+
+    if (rootFont > 100) {
+      rootFont = 100
+    }
+    document.documentElement.style.fontSize = rootFont + 'px'
+  }
+
+  changeRootFont()
+  onUnmounted(() => {
+    window.removeEventListener('resize', changeRootFont)
+  })
+  window.addEventListener('resize', changeRootFont)
+}
+
+function routerAnimate () {
+  const transitionName = ref('')
+  const route = useRoute()
+
+  watch(route, () => {
+    transitionName.value = 'router-fade'
+  })
+
+  return transitionName
+}
 
 export default {
   components: {
     Nav,
     Banner
   },
-  data () {
-    return {
-      transitionName: ''
-    }
-  },
-  computed: {},
-  watch: {
-    $route () {
-      this.transitionName = 'router-fade'
-    }
-  },
-  created () {
-    this.$axios.get('/test').then((data) => {
+  setup () {
+    const ins = getCurrentInstance()
+
+    ins.root.emit = emitter.emit
+    ins.root.on = emitter.on
+
+    onMounted(function () {
+      document.querySelector('.cm-enter-loading').remove()
+    })
+
+    const transitionName = routerAnimate()
+
+    rootFont()
+
+    axios.get('/test').then((data) => {
       console.log(data)
     })
-    window.addEventListener('resize', this.changeRootFont)
-    this.changeRootFont()
-  },
-  unmounted () {
-    window.removeEventListener('resize', this.changeRootFont)
-  },
-  mounted () {
-    document.querySelector('.cm-enter-loading').remove()
-  },
-  methods: {
-    changeRootFont () {
-      let rootFont = (document.body.clientWidth / 768) * 100
 
-      if (rootFont > 100) {
-        rootFont = 100
-      }
-      document.documentElement.style.fontSize = rootFont + 'px'
-    },
-    afterLeave () {
-      this.$root.$emit('router-animationend')
-    },
-    beforeLeave () {
-      this.$root.$emit('router-before-leave')
+    return {
+      transitionName
     }
   }
 }
@@ -83,8 +105,7 @@ export default {
 
 <style lang="stylus">
 .container
-  padding-left 220px
-  position relative
+  padding-left 220px position relative
 </style>
 
 <style>

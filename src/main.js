@@ -7,6 +7,7 @@ import './lib'
 import 'normalize.css'
 import './style/index.styl'
 
+
 const requireComponent = require.context('./components/global', true, /\.vue$/)
 
 requireComponent.keys().forEach((fileName) => {
@@ -26,5 +27,3 @@ requireComponent.keys().forEach((fileName) => {
 app.use(router)
 app.use(store)
 app.mount('#app')
-
-export default app
