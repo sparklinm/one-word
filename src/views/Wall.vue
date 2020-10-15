@@ -56,16 +56,19 @@
   </main>
 </template>
 
-<script>
-import Card from '@/components/card/Card'
-import ArticleItem from '@/components/article/ArticleItem'
-import { getCards } from '@/api/data'
-import { cutText, infiniteScroll } from '@/js/util'
+<script lang='ts'>
+import Card from '@/components/card/Card.vue'
+import ArticleItem from '@/components/article/ArticleItem.vue'
+import { getCards } from '@/api/data.js'
+import { cutText, infiniteScroll } from '@/js/util.js'
 import {
-  ref, reactive, onUnmounted, computed, nextTick
+  ref, reactive, onUnmounted, computed, nextTick, defineComponent
 } from 'vue'
 import { useRouter } from 'vue-router'
 
+interface card {
+  [propsName:string]:any
+}
 
 async function cardsPiece () {
   const allCards = reactive(await getCards())
@@ -89,7 +92,7 @@ async function cardsPiece () {
   }
 
   const cards = computed(() => {
-    return someCards.map(card => ({
+    return someCards.map((card:card) => ({
       id: card.id,
       nickName: card.nickName,
       head: card.head,
@@ -139,9 +142,8 @@ async function articlesPiece () {
 }
 
 
-function loadOnSrcoll (loadCards, loadArticles) {
-  let ins = null
-  const elLoading = ref(null)
+function loadOnSrcoll (loadCards:Function, loadArticles:Function) {
+  const elLoading = ref<HTMLElement|null>(null)
   const showLoading = ref(false)
   const showNoMoreData = ref(false)
   const type = ref('card')
@@ -150,21 +152,28 @@ function loadOnSrcoll (loadCards, loadArticles) {
     return type.value === 'card' ? loadCards : loadArticles
   })
 
-  ins = infiniteScroll({
+  const ins = infiniteScroll({
     callback: () => {
-      elLoading.value.style.opacity = 1
+      if (elLoading.value) {
+        elLoading.value.style.opacity = '1'
+      }
+
       showLoading.value = true
       loadData.value()
         .then(() => {
           showLoading.value = false
-          elLoading.value.style.opacity = 0
+          if (elLoading.value) {
+            elLoading.value.style.opacity = '0'
+          }
         })
         .catch(() => {
           showNoMoreData.value = true
           showLoading.value = false
           setTimeout(() => {
             showNoMoreData.value = false
-            elLoading.value.style.opacity = 0
+            if (elLoading.value) {
+              elLoading.value.style.opacity = '0'
+            }
           }, 1000)
         })
     }
@@ -183,7 +192,7 @@ function loadOnSrcoll (loadCards, loadArticles) {
   }
 }
 
-export default {
+export default defineComponent({
   components: {
     Card,
     ArticleItem
@@ -191,12 +200,12 @@ export default {
   async setup () {
     const activeName = ref('first')
     const router = useRouter()
-    const articleEls = reactive([])
+    const articleEls = reactive<any[]>([])
     const { cards, loadCards, initCards } = await cardsPiece()
     const { articles, loadArticles, initArticles } = await articlesPiece()
     const { type, elLoading, showLoading, showNoMoreData } = loadOnSrcoll(loadCards, loadArticles)
 
-    function goPage (id) {
+    function goPage (id:number|string) {
       router
         .push({
           path: `/card/${id}`
@@ -210,7 +219,7 @@ export default {
         })
         .catch(err => err)
     }
-    function changePane (name) {
+    function changePane (name:string) {
       type.value = name
       if (name === 'card') {
         initCards()
@@ -224,7 +233,7 @@ export default {
       }
     }
 
-    return {
+    const res = {
       activeName,
       elLoading,
       articleEls,
@@ -237,8 +246,10 @@ export default {
       goCreatPage,
       changePane
     }
+
+    return res
   }
-}
+})
 </script>
 
 <style lang="stylus">
