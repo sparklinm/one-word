@@ -1,16 +1,25 @@
 module.exports = {
   root: true,
+
   env: {
     node: true
   },
-  extends: ['eslint:recommended', 'plugin:vue/vue3-recommended' ],
+
+  extends: [
+    'eslint:recommended',
+    'plugin:vue/vue3-recommended',
+    '@vue/typescript'
+  ],
+
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@typescript-eslint/parser'
   },
+
   settings: {
     'html/indent': '+2',
     'html/report-bad-indent': 'error'
   },
+
   rules: {
     strict: 0,
     indent: [
@@ -180,6 +189,7 @@ module.exports = {
       }
     ]
   },
+
   globals: {
     dayjs: true,
     uuid: true

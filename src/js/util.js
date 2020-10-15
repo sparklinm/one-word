@@ -73,9 +73,6 @@ function throttle (fn) {
 
 
 export function infiniteScroll (options) {
-  if (!options.callback) {
-    return
-  }
   let container = document
   const opt = Object.assign(
     {
@@ -95,7 +92,7 @@ export function infiniteScroll (options) {
 
     if (clientHeight + scrollTop + opt.distance >= scrollHeight) {
 
-      opt.callback()
+      opt.callback && opt.callback()
     }
   }
 
