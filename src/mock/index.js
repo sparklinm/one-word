@@ -19,7 +19,7 @@ const queryString = function (url) {
 }
 
 Mock.setup({
-  timeout: 400
+  timeout: 0
 })
 
 const heads = []

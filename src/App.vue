@@ -116,7 +116,8 @@ export default defineComponent({
 
 <style lang="stylus">
   .container
-    padding-left 220px position relative
+    padding-left 220px
+    position relative
 </style>
 
 <style>
